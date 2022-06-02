@@ -1,0 +1,62 @@
+{
+    "ajout": [
+        {
+            "ref": "760032",
+            "desi": "solution hydroalcoolique Assanis",
+            "pu": "2.50",
+            "unite": "20ml"
+        },
+        {
+            "ref": "401543",
+            "desi": "dragées Ricqlès",
+            "pu": "4.90",
+            "unite": "75g"
+        },
+
+        {
+            "ref": "123456",
+            "desi": "Danaitte",
+            "pu": "1.50",
+            "unite": "500g"
+        }
+    ],
+    "modif": [
+        {
+            "ref": "368723",
+            "pu": "6.75"
+        },
+        {
+            "ref": "368724",
+            "desi": "yaourt nature Vanona nouvelle formule",
+            "unite": "4x10cl"
+        },
+        {
+            "ref": "760032",
+            "remise": "20"
+        },
+        {
+            "ref": "778899",
+            "remise": "0"
+        },
+
+        {
+            "ref": "401543",
+            "remise": "15"
+        },
+
+        {
+            "ref": "935647",
+            "pu": "3.9"
+        },
+
+        {
+            "ref": "123456",
+            "remise": "10"
+        }
+    ],
+    "suppr": [
+        {
+            "ref": "935647"
+        }
+    ]
+}

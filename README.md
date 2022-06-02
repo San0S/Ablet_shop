@@ -22,13 +22,14 @@ l'évolution de leur caddie lors de leurs achats dans une grande surface du grou
 - affichage du qr code lié à la réf d'un article ( + possibilité de le scanner pour éviter de devoir saisir la réf)
 - se servir de `catalogue.json` pour ajouter les nouveaux articles à la BDD
 
-## Potentielles classes et méthodes : 
+# Potentielles classes et méthodes : 
 
-Classes : 
 
-- Caddie 
+- Caddie (méthode afficher montant total, ajouter/supprimer un article du caddie, sauvegarder un panier pour le continuer plus tard/commencer un nouveau, )
+- Article
+- 
 
-    
-    
-MVC
-Modèle - Vue - Controlleur
+  
+  
+  
+  MVC : Modèle - Vue - Controlleur
