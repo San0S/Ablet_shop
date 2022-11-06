@@ -1,3 +1,8 @@
+<?php
+    include_once '../modele/connexion.php';
+?>
+
+
 <!DOCTYPE html>
 <html>
 
@@ -38,253 +43,69 @@
             </div>
         </div>
     </div>
+
+    
+    
     <div class="articles">
-        <div id="w-node-_48a04130-b9f5-6057-fe0f-53ad7752b4e3-081dc3ca" class="article"><img src="./img/orange.jpg"
-                sizes="(max-width: 767px) 100vw, (max-width: 991px) 9vw, 16vw" alt="" class="img_article" />
-            <div class="nom_article">Nom du produit</div>
-            <div class="details_article">
-                <div class="infos_article">
-                    <div class="div-block-12">
-                        <div class="text-block-9">Ref : </div>
-                        <div class="text-block-10">#####</div>
-                    </div>
-                    <div class="div-block-12">
-                        <div class="text-block-9">Qte : </div>
-                        <div class="text-block-10">#####</div>
-                    </div>
-                </div>
-                <div class="prix-achat">
-                    <div class="reduction">
-                        <div class="div-block-14">
-                            <div class="text-block-13">-##%</div>
-                        </div>
-                        <div class="text-block-14">00,00€</div>
-                    </div>
-                    <div class="prix">##,##€</div><a href="#" class="achat w-inline-block"><img
-                            src="./icons/shopping-cart_white.png"
-                            sizes="(max-width: 767px) 100vw, (max-width: 991px) 4vw, 30px" alt=""
-                            class="caddie_icon" /></a>
-                </div>
-            </div>
-        </div>
-        <div id="w-node-_3be2a892-3125-e68a-de29-63e169f984b7-081dc3ca" class="article"><img src="./img/torsadees.jpg"
-                sizes="(max-width: 767px) 100vw, (max-width: 991px) 9vw, 16vw" alt="" class="img_article" />
-            <div class="nom_article">Nom du produit</div>
-            <div class="details_article">
-                <div class="infos_article">
-                    <div class="div-block-12">
-                        <div class="text-block-9">Ref : </div>
-                        <div class="text-block-10">#####</div>
-                    </div>
-                    <div class="div-block-12">
-                        <div class="text-block-9">Qte : </div>
-                        <div class="text-block-10">#####</div>
-                    </div>
-                </div>
-                <div class="prix-achat">
-                    <div class="prix">##,##€</div><a href="#" class="achat w-inline-block"><img
-                            src="./icons/shopping-cart_white.png"
-                            sizes="(max-width: 767px) 100vw, (max-width: 991px) 4vw, 30px" alt=""
-                            class="caddie_icon" /></a>
-                </div>
-            </div>
-        </div>
-        <div id="w-node-_7b462819-6c4f-4ebf-f21e-88f536127943-081dc3ca" class="article"><img src="./img/brioche.jpg"
-                sizes="(max-width: 767px) 100vw, (max-width: 991px) 9vw, 16vw" alt="" class="img_article" />
-            <div class="nom_article">Nom du produit</div>
-            <div class="details_article">
-                <div class="infos_article">
-                    <div class="div-block-12">
-                        <div class="text-block-9">Ref : </div>
-                        <div class="text-block-10">#####</div>
-                    </div>
-                    <div class="div-block-12">
-                        <div class="text-block-9">Qte : </div>
-                        <div class="text-block-10">#####</div>
-                    </div>
-                </div>
-                <div class="prix-achat">
-                    <div class="reduction">
-                        <div class="div-block-14">
-                            <div class="text-block-13">-##%</div>
-                        </div>
-                        <div class="text-block-14">00,00€</div>
-                    </div>
-                    <div class="prix">##,##€</div><a href="#" class="achat w-inline-block"><img
-                            src="./icons/shopping-cart_white.png"
-                            sizes="(max-width: 767px) 100vw, (max-width: 991px) 4vw, 30px" alt=""
-                            class="caddie_icon" /></a>
-                </div>
-            </div>
-        </div>
-        <div id="w-node-_69c0b3a8-96b1-e7e1-0e00-e7125b430058-081dc3ca" class="article"><img src="./img/essuie-tout.jpg"
-                alt="" class="img_article" />
-            <div class="nom_article">Nom du produit</div>
-            <div class="details_article">
-                <div class="infos_article">
-                    <div class="div-block-12">
-                        <div class="text-block-9">Ref : </div>
-                        <div class="text-block-10">#####</div>
-                    </div>
-                    <div class="div-block-12">
-                        <div class="text-block-9">Qte : </div>
-                        <div class="text-block-10">#####</div>
-                    </div>
-                </div>
-                <div class="prix-achat">
-                    <div class="reduction">
-                        <div class="div-block-14">
-                            <div class="text-block-13">-##%</div>
-                        </div>
-                        <div class="text-block-14">00,00€</div>
-                    </div>
-                    <div class="prix">##,##€</div><a href="#" class="achat w-inline-block"><img
-                            src="./icons/shopping-cart_white.png"
-                            sizes="(max-width: 767px) 100vw, (max-width: 991px) 4vw, 30px" alt=""
-                            class="caddie_icon" /></a>
-                </div>
-            </div>
-        </div>
-        <div id="w-node-aa331684-8941-0637-708d-7a81e5795ac4-081dc3ca" class="article"><img src="./img/dragee.jpg"
-                sizes="(max-width: 767px) 100vw, (max-width: 991px) 9vw, 16vw" alt="" class="img_article" />
-            <div class="nom_article">Nom du produit</div>
-            <div class="details_article">
-                <div class="infos_article">
-                    <div class="div-block-12">
-                        <div class="text-block-9">Ref : </div>
-                        <div class="text-block-10">#####</div>
-                    </div>
-                    <div class="div-block-12">
-                        <div class="text-block-9">Qte : </div>
-                        <div class="text-block-10">#####</div>
-                    </div>
-                </div>
-                <div class="prix-achat">
-                    <div class="reduction">
-                        <div class="div-block-14">
-                            <div class="text-block-13">-##%</div>
-                        </div>
-                        <div class="text-block-14">00,00€</div>
-                    </div>
-                    <div class="prix">##,##€</div><a href="#" class="achat w-inline-block"><img
-                            src="./icons/shopping-cart_white.png"
-                            sizes="(max-width: 767px) 100vw, (max-width: 991px) 4vw, 30px" alt=""
-                            class="caddie_icon" /></a>
-                </div>
-            </div>
-        </div>
-        <div id="w-node-_81badca0-9d46-21c6-7e33-1ca22e64cdf6-081dc3ca" class="article"><img src="./img/moutarde.jpg"
-                sizes="(max-width: 767px) 100vw, (max-width: 991px) 9vw, 16vw" alt="" class="img_article" />
-            <div class="nom_article">Nom du produit</div>
-            <div class="details_article">
-                <div class="infos_article">
-                    <div class="div-block-12">
-                        <div class="text-block-9">Ref : </div>
-                        <div class="text-block-10">#####</div>
-                    </div>
-                    <div class="div-block-12">
-                        <div class="text-block-9">Qte : </div>
-                        <div class="text-block-10">#####</div>
-                    </div>
-                </div>
-                <div class="prix-achat">
-                    <div class="reduction">
-                        <div class="div-block-14">
-                            <div class="text-block-13">-##%</div>
-                        </div>
-                        <div class="text-block-14">00,00€</div>
-                    </div>
-                    <div class="prix">##,##€</div><a href="#" class="achat w-inline-block"><img
-                            src="./icons/shopping-cart_white.png"
-                            sizes="(max-width: 767px) 100vw, (max-width: 991px) 4vw, 30px" alt=""
-                            class="caddie_icon" /></a>
-                </div>
-            </div>
-        </div>
-        <div id="w-node-_7d1ac71d-c181-be10-dcf8-a7650cf9db6f-081dc3ca" class="article"><img
-                src="./img/yaourt-nature.jpg" alt="" class="img_article" />
-            <div class="nom_article">Nom du produit</div>
-            <div class="details_article">
-                <div class="infos_article">
-                    <div class="div-block-12">
-                        <div class="text-block-9">Ref : </div>
-                        <div class="text-block-10">#####</div>
-                    </div>
-                    <div class="div-block-12">
-                        <div class="text-block-9">Qte : </div>
-                        <div class="text-block-10">#####</div>
-                    </div>
-                </div>
-                <div class="prix-achat">
-                    <div class="reduction">
-                        <div class="div-block-14">
-                            <div class="text-block-13">-##%</div>
-                        </div>
-                        <div class="text-block-14">00,00€</div>
-                    </div>
-                    <div class="prix">##,##€</div><a href="#" class="achat w-inline-block"><img
-                            src="./icons/shopping-cart_white.png"
-                            sizes="(max-width: 767px) 100vw, (max-width: 991px) 4vw, 30px" alt=""
-                            class="caddie_icon" /></a>
-                </div>
-            </div>
-        </div>
-        <div id="w-node-_8f246941-94c5-4c88-831f-d7eec6d22562-081dc3ca" class="article"><img src="./img/orange.jpg"
-                sizes="(max-width: 767px) 100vw, (max-width: 991px) 9vw, 16vw" alt="" class="img_article" />
-            <div class="nom_article">Nom du produit</div>
-            <div class="details_article">
-                <div class="infos_article">
-                    <div class="div-block-12">
-                        <div class="text-block-9">Ref : </div>
-                        <div class="text-block-10">#####</div>
-                    </div>
-                    <div class="div-block-12">
-                        <div class="text-block-9">Qte : </div>
-                        <div class="text-block-10">#####</div>
-                    </div>
-                </div>
-                <div class="prix-achat">
-                    <div class="reduction">
-                        <div class="div-block-14">
-                            <div class="text-block-13">-##%</div>
-                        </div>
-                        <div class="text-block-14">00,00€</div>
-                    </div>
-                    <div class="prix">##,##€</div><a href="#" class="achat w-inline-block"><img
-                            src="./icons/shopping-cart_white.png"
-                            sizes="(max-width: 767px) 100vw, (max-width: 991px) 4vw, 30px" alt=""
-                            class="caddie_icon" /></a>
-                </div>
-            </div>
-        </div>
-        <div id="w-node-_834aecaa-5592-b8ac-b54a-068bf1aad38d-081dc3ca" class="article"><img src="./img/brioche.jpg"
-                sizes="(max-width: 767px) 100vw, (max-width: 991px) 9vw, 16vw" alt="" class="img_article" />
-            <div class="nom_article">Nom du produit</div>
-            <div class="details_article">
-                <div class="infos_article">
-                    <div class="div-block-12">
-                        <div class="text-block-9">Ref : </div>
-                        <div class="text-block-10">#####</div>
-                    </div>
-                    <div class="div-block-12">
-                        <div class="text-block-9">Qte : </div>
-                        <div class="text-block-10">#####</div>
-                    </div>
-                </div>
-                <div class="prix-achat">
-                    <div class="reduction">
-                        <div class="div-block-14">
-                            <div class="text-block-13">-##%</div>
-                        </div>
-                        <div class="text-block-14">00,00€</div>
-                    </div>
-                    <div class="prix">##,##€</div><a href="#" class="achat w-inline-block"><img
-                            src="./icons/shopping-cart_white.png"
-                            sizes="(max-width: 767px) 100vw, (max-width: 991px) 4vw, 30px" alt=""
-                            class="caddie_icon" /></a>
-                </div>
-            </div>
-        </div>
+
+
+        <?php
+            $requete = 'SELECT * FROM article';
+            $res = $db->prepare($requete);
+            $res->execute();
+
+            $i = 0;
+            $row = 1;
+            $column = 1;
+
+            foreach ($res as $article) {
+                echo '<div id="article'.$i.'" class="article">';
+                echo '<img src="'.$article['imagelien'].'" sizes="(max-width: 767px) 100vw, (max-width: 991px) 9vw, 16vw" alt="image de l\'article" class="img_article" />';
+                echo '<div class="nom_article">'.$article['designation'].'</div>';
+                echo '<div class="details_article"><div class="infos_article"><div class="div-block-12"><div class="text-block-9">Ref : </div>';
+                echo '<div class="text-block-10">'.$article['refart'].'</div></div>';
+                echo '<div class="div-block-12"><div class="text-block-9">Qte : </div>';
+                echo '<div class="text-block-10">'.$article['unitecond'].'</div></div></div>';
+                echo '<div class="prix-achat">';
+                
+                if ($article['remise'] != 0) {
+                    echo '<div class="reduction"><div class="div-block-14"><div class="text-block-13">';
+                    echo '-'.$article['remise'].'%';
+                    echo '</div></div><div class="text-block-14">';
+                    echo $article['pu'].'€';
+                    echo '</div></div>';
+                }
+
+                echo '<div class="prix">';
+                if ($article['remise'] != 0) {
+                    echo number_format($article['pu'] * ((100-$article['remise'])/100), 2);
+                } else {
+                    echo $article['pu'];
+                }    
+                echo '€</div><a href="#" class="achat w-inline-block">';
+                echo '<img src="./icons/shopping-cart_white.png" sizes="(max-widht: 767px) 100vw, (max-width: 991px) 4vw, 30px" alt="shopping_cart_icons" class="caddie_icon"/></a>';
+                echo '</div></div></div>';
+
+                echo '<style> #article'.$i.' { ';
+                echo '-ms-grid-row: '.$row.';';
+                echo 'grid-row-start: '.$row.';';
+                echo '-ms-grid-row-span: 1;';
+                echo 'grid-row-end: '.($row+1).';';
+                echo '-ms-grid-column: '.$column.';';
+                echo 'grid-column-start: '.$column.';';
+                echo '-ms-grid-column-span: 1;';
+                echo 'grid-column-end: '.($column+1).';}';
+                echo '</style>';
+
+                $i++;
+                $column++;
+                if ($column > 4) {
+                    $column = 1;
+                    $row++;
+                }
+            }
+
+        ?>
     </div>
 
 
