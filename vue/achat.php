@@ -1,4 +1,5 @@
 <?php
+    session_start();
     include_once '../modele/connexion.php';
 ?>
 
@@ -15,7 +16,9 @@
 
 <body class="body">
     <div class="menu">
-        <img src="./img/logo.png" alt="ablet logo" class="logo" />
+        <a class="logo" href="./accueil.html">
+            <img src="./img/logo.png" alt="ablet logo" />
+        </a>
         <div class="search_part">
             <img src="icons/hand_shopping-cart.png" sizes="60px" alt="hand shopcart icon" class="panier" />
             <div class="search_form_block w-form">
@@ -32,15 +35,37 @@
             <div class="user_block">
                 <div class="user_message">
                     <div class="bonjour">Bonjour</div>
-                    <div class="username">Christophe</div>
+                    <div class="username"><?php echo $_SESSION['prenom']; ?></div>
                 </div>
                 <img src="./icons/account.png" alt="User account icon" class="user_account" />
             </div>
-            <div class="caddie_utilisateur" onclick="on()">
+            <button class="caddie_utilisateur" onclick="on()">
                 <img src="./icons/shopping-cart.png" alt="shopcart icon" class="caddie_logo" />
-                <div class="montant_caddie">0,00€</div>
+                <div class="montant_caddie">
+                    <?php
+                        $requete = 'SELECT qte, pu, remise
+                                    FROM caddie
+                                    INNER JOIN article ON caddie.refart = article.refart
+                                    WHERE caddie.idutilisateur = '.$_SESSION['idutilisateur'].';';
+                        $caddie = $db->prepare($requete);
+                        $caddie->execute();
+
+                        $montantCaddie = 0;
+                        foreach ($caddie as $article) {
+                            if ($article['remise'] != 0) {
+                                $prix = ($article['pu'] * ((100-$article['remise'])/100) ) * $article['qte'];
+                            } else {
+                                $prix = $article['pu'] * $article['qte'];
+                            }
+                            $montantCaddie += $prix;
+                        }
+                        echo number_format($montantCaddie, 2).'€';
+                        
+                    ?>
+
+                </div>
                 <img src="./icons/down.PNG" alt="show more icon" class="show_caddie_icon" />
-            </div>
+            </button>
         </div>
     </div>
 
@@ -128,201 +153,104 @@
 
     <div id="affichage_apercu_panier">
         <div class="apercu_panier">
-            <div class="en_tete_apercu"><img src="./icons/hand_shopping-cart.png"
-                    sizes="(max-width: 479px) 100vw, (max-width: 767px) 24vw, 178px"
-                    srcset="https://uploads-ssl.webflow.com/635d35b561099e76ee1dc3c9/635e5fc2e5fc3d16aec037a7_shopping-cart-p-500.png 500w, ./icons/hand_shopping-cart.png 512w"
-                    alt="" class="panier_icon" />
-                <div class="titre_apercu_panier">Aperçu du panier :</div>
-                <div>## produit(s)</div>
-                <div class="close" onclick="off()"><img src="./icons/close.png" alt="" class="image-7" /></div>
-            </div>
-            <div class="liste_articles_parnier">
-                <div class="article_panier">
-                    <div class="details_article_panier"><img src="./img/torsadees.jpg"
-                            sizes="(max-width: 479px) 100vw, (max-width: 767px) 4vw, 5vw" alt=""
-                            class="img_article_liste" />
-                        <div class="infos_articles_panier">
-                            <div class="text-block-23">Nom du produit</div>
-                            <div class="div-block-23">
-                                <div class="text-block-28">Qte :</div>
-                                <div>####</div>
-                            </div>
-                        </div>
-                        <div class="prix_article_panier">##,##€</div>
-                        <div class="gestion_qte_article_panier"><img
-                                src="https://uploads-ssl.webflow.com/plugins/Basic/assets/placeholder.60f9b1840c.svg"
-                                alt="" class="qte" />
-                            <div class="nb_article_panier">#</div><img
-                                src="https://uploads-ssl.webflow.com/plugins/Basic/assets/placeholder.60f9b1840c.svg"
-                                alt="" class="qte" />
-                        </div>
-                    </div><a href="#" class="supprimer_article">Supprimer</a>
-                </div>
-                <div class="article_panier">
-                    <div class="details_article_panier"><img
-                            src="https://uploads-ssl.webflow.com/635d35b561099e76ee1dc3c9/635e5f7e41528a4bd6e4c30a_orange.jpg"
-                            sizes="(max-width: 479px) 100vw, (max-width: 767px) 4vw, 5vw"
-                            srcset="https://uploads-ssl.webflow.com/635d35b561099e76ee1dc3c9/635e5f7e41528a4bd6e4c30a_orange-p-500.jpg 500w, https://uploads-ssl.webflow.com/635d35b561099e76ee1dc3c9/635e5f7e41528a4bd6e4c30a_orange-p-800.jpg 800w, https://uploads-ssl.webflow.com/635d35b561099e76ee1dc3c9/635e5f7e41528a4bd6e4c30a_orange-p-1080.jpg 1080w, https://uploads-ssl.webflow.com/635d35b561099e76ee1dc3c9/635e5f7e41528a4bd6e4c30a_orange-p-1600.jpg 1600w, https://uploads-ssl.webflow.com/635d35b561099e76ee1dc3c9/635e5f7e41528a4bd6e4c30a_orange-p-2000.jpg 2000w, https://uploads-ssl.webflow.com/635d35b561099e76ee1dc3c9/635e5f7e41528a4bd6e4c30a_orange-p-2600.jpg 2600w, https://uploads-ssl.webflow.com/635d35b561099e76ee1dc3c9/635e5f7e41528a4bd6e4c30a_orange.jpg 2948w"
-                            alt="" class="img_article_liste" />
-                        <div class="infos_articles_panier">
-                            <div class="text-block-23">Nom du produit</div>
-                            <div class="div-block-23">
-                                <div class="text-block-28">Qte :</div>
-                                <div>####</div>
-                            </div>
-                        </div>
-                        <div class="prix_article_panier">##,##€</div>
-                        <div class="gestion_qte_article_panier"><img
-                                src="https://uploads-ssl.webflow.com/plugins/Basic/assets/placeholder.60f9b1840c.svg"
-                                alt="" class="qte" />
-                            <div class="nb_article_panier">#</div><img
-                                src="https://uploads-ssl.webflow.com/plugins/Basic/assets/placeholder.60f9b1840c.svg"
-                                alt="" class="qte" />
-                        </div>
-                    </div><a href="#" class="supprimer_article">Supprimer</a>
-                </div>
-                <div class="article_panier">
-                    <div class="details_article_panier"><img
-                            src="https://uploads-ssl.webflow.com/635d35b561099e76ee1dc3c9/635e5f7e1407d8dc8ac5b07c_dragee.jpg"
-                            sizes="(max-width: 479px) 100vw, (max-width: 767px) 4vw, 5vw"
-                            srcset="https://uploads-ssl.webflow.com/635d35b561099e76ee1dc3c9/635e5f7e1407d8dc8ac5b07c_dragee-p-500.jpg 500w, https://uploads-ssl.webflow.com/635d35b561099e76ee1dc3c9/635e5f7e1407d8dc8ac5b07c_dragee-p-800.jpg 800w, https://uploads-ssl.webflow.com/635d35b561099e76ee1dc3c9/635e5f7e1407d8dc8ac5b07c_dragee.jpg 877w"
-                            alt="" class="img_article_liste" />
-                        <div class="infos_articles_panier">
-                            <div class="text-block-23">Nom du produit</div>
-                            <div class="div-block-23">
-                                <div class="text-block-28">Qte :</div>
-                                <div>####</div>
-                            </div>
-                        </div>
-                        <div class="prix_article_panier">##,##€</div>
-                        <div class="gestion_qte_article_panier"><img
-                                src="https://uploads-ssl.webflow.com/635d35b561099e76ee1dc3c9/635e5fc170804598884dd008_delete.png"
-                                sizes="(max-width: 479px) 20vw, (max-width: 767px) 4vw, (max-width: 991px) 3vw, 2vw"
-                                srcset="https://uploads-ssl.webflow.com/635d35b561099e76ee1dc3c9/635e5fc170804598884dd008_delete-p-500.png 500w, https://uploads-ssl.webflow.com/635d35b561099e76ee1dc3c9/635e5fc170804598884dd008_delete.png 512w"
-                                alt="" class="qte" />
-                            <div class="nb_article_panier">#</div><img
-                                src="https://uploads-ssl.webflow.com/635d35b561099e76ee1dc3c9/635e5fc1bc9d9cd431e7d6ce_plus.png"
-                                sizes="(max-width: 479px) 20vw, (max-width: 767px) 4vw, (max-width: 991px) 3vw, 19.600006103515625px"
-                                srcset="https://uploads-ssl.webflow.com/635d35b561099e76ee1dc3c9/635e5fc1bc9d9cd431e7d6ce_plus-p-500.png 500w, https://uploads-ssl.webflow.com/635d35b561099e76ee1dc3c9/635e5fc1bc9d9cd431e7d6ce_plus.png 512w"
-                                alt="" class="qte" />
-                        </div>
-                    </div><a href="#" class="supprimer_article">Supprimer</a>
-                </div>
-                <div class="article_panier">
-                    <div class="details_article_panier"><img
-                            src="https://uploads-ssl.webflow.com/635d35b561099e76ee1dc3c9/635e5f7db5963643296e7b37_moutarde.jpg"
-                            alt="" class="img_article_liste" />
-                        <div class="infos_articles_panier">
-                            <div class="text-block-23">Nom du produit</div>
-                            <div class="div-block-23">
-                                <div class="text-block-28">Qte :</div>
-                                <div>####</div>
-                            </div>
-                        </div>
-                        <div class="prix_article_panier">##,##€</div>
-                        <div class="gestion_qte_article_panier"><img
-                                src="https://uploads-ssl.webflow.com/635d35b561099e76ee1dc3c9/635e5fc141528a2d6ce4c465_minus.png"
-                                alt="" class="qte" />
-                            <div class="nb_article_panier">#</div><img
-                                src="https://uploads-ssl.webflow.com/635d35b561099e76ee1dc3c9/635e5fc1bc9d9cd431e7d6ce_plus.png"
-                                sizes="(max-width: 479px) 20vw, (max-width: 767px) 4vw, (max-width: 991px) 3vw, 19.600006103515625px"
-                                srcset="https://uploads-ssl.webflow.com/635d35b561099e76ee1dc3c9/635e5fc1bc9d9cd431e7d6ce_plus-p-500.png 500w, https://uploads-ssl.webflow.com/635d35b561099e76ee1dc3c9/635e5fc1bc9d9cd431e7d6ce_plus.png 512w"
-                                alt="" class="qte" />
-                        </div>
-                    </div><a href="#" class="supprimer_article">Supprimer</a>
-                </div>
-                <div class="article_panier">
-                    <div class="details_article_panier"><img
-                            src="https://uploads-ssl.webflow.com/plugins/Basic/assets/placeholder.60f9b1840c.svg" alt=""
-                            class="img_article_liste" />
-                        <div class="infos_articles_panier">
-                            <div class="text-block-23">Nom du produit</div>
-                            <div class="div-block-23">
-                                <div class="text-block-28">Qte :</div>
-                                <div>####</div>
-                            </div>
-                        </div>
-                        <div class="prix_article_panier">##,##€</div>
-                        <div class="gestion_qte_article_panier"><img
-                                src="https://uploads-ssl.webflow.com/plugins/Basic/assets/placeholder.60f9b1840c.svg"
-                                alt="" class="qte" />
-                            <div class="nb_article_panier">#</div><img
-                                src="https://uploads-ssl.webflow.com/plugins/Basic/assets/placeholder.60f9b1840c.svg"
-                                alt="" class="qte" />
-                        </div>
-                    </div><a href="#" class="supprimer_article">Supprimer</a>
-                </div>
-                <div class="article_panier">
-                    <div class="details_article_panier"><img
-                            src="https://uploads-ssl.webflow.com/plugins/Basic/assets/placeholder.60f9b1840c.svg" alt=""
-                            class="img_article_liste" />
-                        <div class="infos_articles_panier">
-                            <div class="text-block-23">Nom du produit</div>
-                            <div class="div-block-23">
-                                <div class="text-block-28">Qte :</div>
-                                <div>####</div>
-                            </div>
-                        </div>
-                        <div class="prix_article_panier">##,##€</div>
-                        <div class="gestion_qte_article_panier"><img
-                                src="https://uploads-ssl.webflow.com/plugins/Basic/assets/placeholder.60f9b1840c.svg"
-                                alt="" class="qte" />
-                            <div class="nb_article_panier">#</div><img
-                                src="https://uploads-ssl.webflow.com/plugins/Basic/assets/placeholder.60f9b1840c.svg"
-                                alt="" class="qte" />
-                        </div>
-                    </div><a href="#" class="supprimer_article">Supprimer</a>
-                </div>
-                <div class="article_panier">
-                    <div class="details_article_panier"><img
-                            src="https://uploads-ssl.webflow.com/plugins/Basic/assets/placeholder.60f9b1840c.svg" alt=""
-                            class="img_article_liste" />
-                        <div class="infos_articles_panier">
-                            <div class="text-block-23">Nom du produit</div>
-                            <div class="div-block-23">
-                                <div class="text-block-28">Qte :</div>
-                                <div>####</div>
-                            </div>
-                        </div>
-                        <div class="prix_article_panier">##,##€</div>
-                        <div class="gestion_qte_article_panier"><img
-                                src="https://uploads-ssl.webflow.com/plugins/Basic/assets/placeholder.60f9b1840c.svg"
-                                alt="" class="qte" />
-                            <div class="nb_article_panier">#</div><img
-                                src="https://uploads-ssl.webflow.com/plugins/Basic/assets/placeholder.60f9b1840c.svg"
-                                alt="" class="qte" />
-                        </div>
-                    </div><a href="#" class="supprimer_article">Supprimer</a>
-                </div><a href="#" class="link-block w-inline-block"><img
-                        src="https://uploads-ssl.webflow.com/635d35b561099e76ee1dc3c9/635e5fc1b5963601e26e7d30_delete_grey.png"
-                        sizes="(max-width: 479px) 13vw, 30px"
-                        srcset="https://uploads-ssl.webflow.com/635d35b561099e76ee1dc3c9/635e5fc1b5963601e26e7d30_delete_grey-p-500.png 500w, https://uploads-ssl.webflow.com/635d35b561099e76ee1dc3c9/635e5fc1b5963601e26e7d30_delete_grey.png 512w"
-                        alt="" class="image-10" />
-                    <div>Vider mon panier</div>
-                </a>
-            </div>
-            <div class="footer_apercu">
-                <div class="montant_total_panier">
-                    <div class="total">Total :</div>
-                    <div class="total_euro">##,##€</div>
-                </div><a href="#" class="valider_panier w-inline-block"><img
-                        src="https://uploads-ssl.webflow.com/635d35b561099e76ee1dc3c9/635e5fc1618e0a1174b71dc5_shopping-cart_white.png"
-                        srcset="https://uploads-ssl.webflow.com/635d35b561099e76ee1dc3c9/635e5fc1618e0a1174b71dc5_shopping-cart_white-p-500.png 500w, https://uploads-ssl.webflow.com/635d35b561099e76ee1dc3c9/635e5fc1618e0a1174b71dc5_shopping-cart_white.png 512w"
-                        sizes="(max-width: 479px) 100vw, (max-width: 767px) 58px, 9vw" alt="" class="caddie_icon" />
-                    <div class="text-block-21">Valider mon panier</div>
-                </a>
-            </div>
+            <?php 
+                echo '<div class="en_tete_apercu">';
+                echo '<img src="./icons/hand_shopping-cart.png" sizes="(max-width: 479px) 100vw, (max-width: 767px) 24vw, 178px" alt="" class="panier_icon" />';
+                echo '<div class="titre_apercu_panier">Aperçu du panier :</div>';
+                $requete =  'SELECT designation, qte, pu, remise, imagelien
+                            FROM caddie 
+                            INNER JOIN article ON caddie.refart = article.refart 
+                            WHERE idutilisateur = '.$_SESSION['idutilisateur'].';';
+
+                $caddieUser = $db->prepare($requete);
+                $caddieUser->execute();
+                $nbArticles = 0;
+
+                foreach ($caddieUser as $produits) {
+                    $nbArticles++;
+                }
+
+                echo '<div>'.$nbArticles.' produit(s)</div>';
+                
+                echo '<div class="close" onclick="off()"><img src="./icons/close.png" alt="" class="image-7" /></div>';
+                echo "</div>";
+                echo '<div class="liste_articles_parnier">';
+                
+
+                $requete =  'SELECT designation, qte, pu, remise, imagelien
+                FROM caddie 
+                INNER JOIN article ON caddie.refart = article.refart 
+                WHERE idutilisateur = '.$_SESSION['idutilisateur'].';';
+
+                $caddieUser = $db->prepare($requete);
+                $caddieUser->execute();
+
+                $montantTotal = 0;
+
+                foreach ($caddieUser as $article) {
+                    
+                    echo '<div class="article_panier">';
+                    echo '<div class="details_article_panier">';
+                    echo '<img src="'.$article['imagelien'].'" sizes="(max-width: 479px) 100vw, (max-width: 767px) 4vw, 5vw" alt="image de l\'article" class="img_article_liste" />';
+                    echo '<div class="infos_articles_panier">';
+                    echo '<div class="text-block-23">'.$article['designation'].'</div>';
+                    
+                    echo '<div class="div-block-23">';
+                    echo '<div class="text-block-28">Qte :</div>';
+                    echo '<div>'.$article['qte'].'</div>';
+                    echo '</div>';
+                    echo '</div>';
+                    if ($article['remise'] != 0) {
+                        $prix = ($article['pu'] * ((100-$article['remise'])/100) ) * $article['qte'];
+                    } else {
+                        $prix = $article['pu'] * $article['qte'];
+                    }
+                    $montantTotal += $prix;
+
+                    echo '<div class="prix_article_panier">'.number_format($prix, 2).'€</div>';
+                    echo '<div class="gestion_qte_article_panier">';
+
+                    if ($article['qte'] == 1) {
+                        echo '<img src="./icons/delete.png" sizes="(max-width: 479px) 20vw, (max-width: 767px) 4vw, (max-width: 991px) 3vw, 2vw" alt="supprimer" class="qte" />';
+                    } else {
+                        echo '<img src="./icons/minus.png" alt="" class="qte" />';
+                    }
+                    
+                    echo '<div class="nb_article_panier">'.number_format($article['qte'], 0).'</div>';
+                    
+                    echo '<img src="./icons/plus.png" sizes="(max-width: 479px) 20vw, (max-width: 767px) 4vw, (max-width: 991px) 3vw, 19.600006103515625px" alt="" class="qte" />';
+                    echo '</div>';
+                    echo '</div><a href="#" class="supprimer_article">Supprimer</a>';
+                    echo '</div>';  
+                }
+
+                echo '<a href="#" class="link-block w-inline-block">';
+                echo '<img src="./icons/delete_grey.png" sizes="(max-width: 479px) 13vw, 30px" alt="supprimer" class="image-10" />';
+                echo '<div>Vider mon panier</div>';
+                echo '</a>';
+
+                echo '</div>';
+                echo '<div class="footer_apercu">';
+                echo '<div class="montant_total_panier">';
+                echo '<div class="total">Total :</div>';
+                echo '<div class="total_euro">'.number_format($montantTotal, 2).'€</div>';
+                echo '</div><a href="#" class="valider_panier w-inline-block">';
+                echo '<img src="./icons/shopping-cart_white.png" sizes="(max-width: 479px) 100vw, (max-width: 767px) 58px, 9vw" alt="" class="caddie_icon" />';
+                echo '<div class="text-block-21">Valider mon panier</div>';
+                echo '</a>';  
+            ?>
         </div>
+    </div>
 
-        <script>
-            function on() {
-                document.getElementById("affichage_apercu_panier").style.display = "block";
-            }
+<script>
+    function on() {
+        document.getElementById("affichage_apercu_panier").style.display = "block";
+    }
 
-            function off() {
-                document.getElementById("affichage_apercu_panier").style.display = "none";
-            }
-        </script>
+    function off() {
+        document.getElementById("affichage_apercu_panier").style.display = "none";
+    }
+</script>
 
 
 
