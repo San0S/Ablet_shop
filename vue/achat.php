@@ -20,7 +20,7 @@
             <img src="icons/hand_shopping-cart.png" sizes="60px" alt="hand shopcart icon" class="panier" />
             <div class="search_form_block w-form">
                 <form id="wf-form-Search-Form" name="wf-form-Search-Form" data-name="Search Form" method="get"
-                    class="search_form">
+                    class="search_form" action="achat.php">
                     <input type="text" class="search_field w-input" maxlength="256" name="Search" data-name="Search"
                         placeholder="Rechercher un produit..." id="Search" />
                     <input type="submit" data-wait="Veuillez patienter..." value="Rechercher"
@@ -45,12 +45,28 @@
     </div>
 
     
+
+    
+
+
     
     <div class="articles">
 
 
         <?php
-            $requete = 'SELECT * FROM article';
+
+            if (isset($_GET["Search"])) {
+                if (is_numeric($_GET["Search"])) {
+                    $requete = 'SELECT * FROM article WHERE refart LIKE "%'.$_GET["Search"].'%";';
+                } else {
+                    $requete = 'SELECT * FROM article WHERE designation LIKE "%'.$_GET["Search"].'%";';
+
+                }
+            } else {
+                $requete = 'SELECT * FROM article';
+            }
+
+
             $res = $db->prepare($requete);
             $res->execute();
 
@@ -313,5 +329,3 @@
 </body>
 
 </html>
-
-<!-- test -->
