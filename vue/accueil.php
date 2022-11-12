@@ -51,7 +51,9 @@
                     <div class="bonjour">Bonjour</div>
                     <div class="username"><?php echo $_SESSION['prenom']; ?></div>
                 </div>
+                <a href="modification.view.php">
                 <img src="./icons/account.png" alt="User account icon" class="user_account" />
+                </a>
             </div>
             <button class="caddie_utilisateur" onclick="on()">
                 <img src="./icons/shopping-cart.png" alt="shopcart icon" class="caddie_logo" />
