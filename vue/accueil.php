@@ -1,22 +1,36 @@
 <?php
     session_start();
-    include_once '../modele/connexion.php';
+    require_once '../modele/connexion.php';
 ?>
-
 
 <!DOCTYPE html>
 <html>
+    <?php
+        
+        function nouveauCaddie() {
+            global $db;
+            $requete = 'DELETE  
+                        FROM caddie
+                        WHERE idutilisateur='.$_SESSION['idutilisateur'].';';
+            $db->exec($requete);
+        }
+
+        if (isset($_GET['nouveau'])) {
+            nouveauCaddie();
+            header('Location: ./achat.php');
+        }
+    ?>
 
 <head>
     <meta charset="utf-8" />
-    <title>Achat - Aublet</title>
-    <link href="./css/style_achat.css" rel="stylesheet" type="text/css" />
+    <title>Accueil - Aublet</title>
+    <link href="./css/style_accueil.css" rel="stylesheet" type="text/css" />
     <link href="./img/logo_img.png" rel="shortcut icon" type="image/x-icon" />
 </head>
 
 <body class="body">
     <div class="menu">
-        <a class="logo" href="./accueil.php">
+        <a class="logo" href="./accueil.html">
             <img src="./img/logo.png" alt="ablet logo" />
         </a>
         <div class="search_part">
@@ -43,6 +57,19 @@
                 <img src="./icons/shopping-cart.png" alt="shopcart icon" class="caddie_logo" />
                 <div class="montant_caddie">
                     <?php
+
+
+                        $requete = 'SELECT idutilisateur 
+                                    FROM utilisateur
+                                    WHERE nom="'.strtoupper($_SESSION['nom']).'" AND prenom="'.$_SESSION['prenom'].'";';
+                        $iduser = $db->prepare($requete);
+                        $iduser->execute();
+
+                        foreach ($iduser as $id) {
+                            $_SESSION['idutilisateur'] = $id['idutilisateur'];
+                        }
+
+
                         $requete = 'SELECT qte, pu, remise
                                     FROM caddie
                                     INNER JOIN article ON caddie.refart = article.refart
@@ -69,85 +96,25 @@
         </div>
     </div>
 
-    
-
-    
 
 
-    
-    <div class="articles">
+    <div class="content">
+        <div class="accueil">
+            <div class="en_tete_form">
+                <img src="icons/home.png" alt="home icon"
+                    sizes="(max-width: 479px) 75vw, (max-width: 673px) 76vw, 512px" class="home_icon" />
+                <h1 class="heading">Accueil</h1>
+            </div>
+            <div class="texte_accueil">Que voulez-vous faire aujourd&#x27;hui ?</div>
+            <div class="boutons">
+                <a href="./achat.php" name="reprendre" value="reprendre" class="accueil_bouton w-button">Reprendre vos achats</a>
+                <button onclick="on()" name="modifier" value="modifier" class="accueil_bouton w-button">Modifier votre caddie</button>
+                <a href="./accueil.php?nouveau=true" name="nouveau" value="nouveau" class="accueil_bouton w-button">Nouveau caddie</a>
+            </div>
 
-
-        <?php
-
-            if (isset($_GET["Search"])) {
-                if (is_numeric($_GET["Search"])) {
-                    $requete = 'SELECT * FROM article WHERE refart LIKE "%'.$_GET["Search"].'%";';
-                } else {
-                    $requete = 'SELECT * FROM article WHERE designation LIKE "%'.$_GET["Search"].'%";';
-
-                }
-            } else {
-                $requete = 'SELECT * FROM article';
-            }
-
-
-            $res = $db->prepare($requete);
-            $res->execute();
-
-            $i = 0;
-            $row = 1;
-            $column = 1;
-
-            foreach ($res as $article) {
-                echo '<div id="article'.$i.'" class="article">';
-                echo '<img src="'.$article['imagelien'].'" sizes="(max-width: 767px) 100vw, (max-width: 991px) 9vw, 16vw" alt="image de l\'article" class="img_article" />';
-                echo '<div class="nom_article">'.$article['designation'].'</div>';
-                echo '<div class="details_article"><div class="infos_article"><div class="div-block-12"><div class="text-block-9">Ref : </div>';
-                echo '<div class="text-block-10">'.$article['refart'].'</div></div>';
-                echo '<div class="div-block-12"><div class="text-block-9">Qte : </div>';
-                echo '<div class="text-block-10">'.$article['unitecond'].'</div></div></div>';
-                echo '<div class="prix-achat">';
-                
-                if ($article['remise'] != 0) {
-                    echo '<div class="reduction"><div class="div-block-14"><div class="text-block-13">';
-                    echo '-'.$article['remise'].'%';
-                    echo '</div></div><div class="text-block-14">';
-                    echo $article['pu'].'€';
-                    echo '</div></div>';
-                }
-
-                echo '<div class="prix">';
-                if ($article['remise'] != 0) {
-                    echo number_format($article['pu'] * ((100-$article['remise'])/100), 2);
-                } else {
-                    echo $article['pu'];
-                }    
-                echo '€</div><a href="#" class="achat w-inline-block">';
-                echo '<img src="./icons/shopping-cart_white.png" sizes="(max-widht: 767px) 100vw, (max-width: 991px) 4vw, 30px" alt="shopping_cart_icons" class="caddie_icon"/></a>';
-                echo '</div></div></div>';
-
-                echo '<style> #article'.$i.' { ';
-                echo '-ms-grid-row: '.$row.';';
-                echo 'grid-row-start: '.$row.';';
-                echo '-ms-grid-row-span: 1;';
-                echo 'grid-row-end: '.($row+1).';';
-                echo '-ms-grid-column: '.$column.';';
-                echo 'grid-column-start: '.$column.';';
-                echo '-ms-grid-column-span: 1;';
-                echo 'grid-column-end: '.($column+1).';}';
-                echo '</style>';
-
-                $i++;
-                $column++;
-                if ($column > 4) {
-                    $column = 1;
-                    $row++;
-                }
-            }
-
-        ?>
+        </div>
     </div>
+
 
 
 
@@ -242,15 +209,16 @@
         </div>
     </div>
 
-<script>
-    function on() {
-        document.getElementById("affichage_apercu_panier").style.display = "block";
-    }
+    <script>
+        function on() {
 
-    function off() {
-        document.getElementById("affichage_apercu_panier").style.display = "none";
-    }
-</script>
+            document.getElementById("affichage_apercu_panier").style.display = "block";
+        }
+
+        function off() {
+            document.getElementById("affichage_apercu_panier").style.display = "none";
+        }
+    </script>
 
 
 

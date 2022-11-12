@@ -1,7 +1,6 @@
 <?php
-    include_once '../modele/connexion.php';
+    require_once '../modele/connexion.php';
 ?>
-
 
 <!DOCTYPE html>
 <html>
@@ -22,8 +21,7 @@
             <div class="en_tete_form"><img src="./icons/account.png" alt="account icon" />
                 <h1 class="heading">Bienvenue !</h1>
             </div>
-            <form id="wf-form-inscription-form" name="wf-form-inscription-form" data-name="inscription form"
-                method="post" class="inscription_form" action="inscription.php">
+            <form id="wf-form-inscription-form" name="wf-form-inscription-form" data-name="inscription form" method="post" class="inscription_form">
                 <div class="input_part">
                     <div class="inputs_left">
                         <label for="prenom" class="field-label">Prénom</label>
@@ -33,15 +31,15 @@
                         <div class="field-label">Civilité</div>
                         <div class="radios_bouton">
                             <label class="radio-button-field w-radio">
-                                <input type="radio" id="Monsieur" name="civilite" value="Monsieur" data-name="Radio" class="w-form-formradioinput w-radio-input" />
+                                <input type="radio" id="Monsieur" name="radio" value="M." data-name="Radio" class="w-form-formradioinput w-radio-input" />
                                 <span class="w-form-label" for="Monsieur">Monsieur</span>
                             </label>
                             <label class="w-radio">
-                                <input type="radio" id="Madame" name="civilite" value="Madame" data-name="Radio" class="w-form-formradioinput w-radio-input" />
+                                <input type="radio" id="Madame" name="radio" value="Mme." data-name="Radio" class="w-form-formradioinput w-radio-input" />
                                 <span class="w-form-label" for="Madame">Madame</span>
                             </label>
                             <label class="w-radio">
-                                <input type="radio" id="radio" name="civilite" value="Radio" data-name="Radio" class="w-form-formradioinput w-radio-input" />
+                                <input type="radio" id="Autre" name="radio" value="Mx." data-name="Radio" class="w-form-formradioinput w-radio-input" />
                                 <span class="w-form-label" for="radio">Autre</span>
                             </label>
                         </div>
@@ -57,27 +55,121 @@
                         <input type="password" class="text-field w-input" autofocus="true" maxlength="256" name="conf_mdp" data-name="conf_mdp" placeholder="" id="conf_mdp-2" />
                     </div>
                 </div>
-                <div class="inscrire"><a href="#" class="inscrire_bouton w-button">S'inscrire</a></div>
+                <div class="inscrire"><button type="submit" class="inscrire_bouton w-button">S'inscrire</button></div>
             </form>
 
             <?php
-                $registerUser = 'INSERT INTO utilisateur(nom, prenom, civilite, mel, login, mdp) VALUES(:nom, :ville, :civilite, :mel, :login, :mdp)';
-                $res = $db->prepare($registerUser);
-                $res->bindValue('nom', trim($_POST['nom']));
-                $res->bindValue('prenom', trim($_POST['prenom']));
-                $res->bindValue('civilite', trim($_POST['civilite']));
-                $res->bindValue('mel', trim($_POST['mel']));
-                $res->bindValue('login', trim($_POST['login']));
-                $res->bindValue('mdp', trim($_POST['mdp']));
-                $res->execute();
+                session_start(); 
+                $idSes = session_id();
+
+                // Fct de vérification des infos 
+                function mailExiste($mail): bool {
+                    global $db;
+                    $query = $db->prepare('SELECT * FROM utilisateur WHERE mel = :mail');
+                    $query->execute(array(
+                        'mail' => $mail
+                    ));
+                    $resquery = $query->rowCount();
+                    if ($resquery != 0) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+
+                // (vérifie le format de l'email avec les caractères spéciaux, présence du @ etc)
+                function verifFormatMail($mail): bool {
+                    if (filter_var($mail, FILTER_VALIDATE_EMAIL)) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+
+                function loginExiste($login): int {
+                    global $db;
+                    $query = $db->prepare('SELECT * FROM utilisateur WHERE login = :login');
+                    $query->execute(array(
+                        'login' => $login
+                    ));
+                    $resquery = $query->rowCount();
+                    if ($resquery != 0) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+
+                function verifMdp($mdp, $conf_mdp): bool {
+                    if ($mdp == $conf_mdp) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+
+                // Vérification si tous les champs du formulaire sont bien remplis
+                if (isset($_POST['prenom']) && isset($_POST['nom']) && isset($_POST['mail']) && isset($_POST['login']) && isset($_POST['mdp']) && isset($_POST['conf_mdp']) && isset($_POST['radio'])) {
+
+                    $prenom = $_POST['prenom'];
+                    $nom = $_POST['nom'];
+                    $mail = $_POST['mail'];
+                    $login = $_POST['login'];
+                    $mdp = $_POST['mdp'];
+                    $conf_mdp = $_POST['conf_mdp'];
+                    $civilite = $_POST['radio'];
+
+
+                    if (mailExiste($mail)) {
+                        $errMsg = "Le mail existe déjà";
+                    }
+                    if (!verifFormatMail($mail)) {
+                        $errMsg = "Le mail n'est pas valide";
+                    }
+                    if (loginExiste($login)) {
+                        $errMsg = "Le login existe déjà";
+                    }
+                    if (!verifMdp($mdp, $conf_mdp)) {
+                        $errMsg = "Les mots de passe ne correspondent pas";
+                    }
+
+                    // Si tout est bon, on prépare la requête d'insertion
+                    if (!mailExiste($mail) && verifFormatMail($mail) && !loginExiste($login) && verifMdp($mdp, $conf_mdp)) {
+
+                    $query = $db->prepare(' INSERT INTO utilisateur(nom, prenom, civilite, mel, login, mdp) 
+                                            VALUES(:nom, :prenom, :civilite, :mail, :login, :mdp)');
+                    
+                    $query->execute(array(
+                        'nom' => strtoupper($nom), // nom en maj dans la bdd
+                        'prenom' => $prenom,
+                        'civilite' => $civilite, // trouver moyen pour transformer Monsieur en M. et Madame en Mme. selon choix
+                        'mail' => $mail,
+                        'login' => $login,
+                        'mdp' => $mdp
+                    ));
+
+                    $_SESSION['sid'] = $idSes;
+                    $_SESSION['nom'] = strtoupper($nom);
+                    $_SESSION['prenom'] = $prenom;
+                    $_SESSION['civilite'] = $civilite;
+                    $_SESSION['mel'] = $mail;
+                    $_SESSION['login'] = $login;
+                    $_SESSION['mdp'] = $mdp;
+
+                    // Si tout s'est bien passé, on exécute la requête et on redirige vers la page d'accueil
+                    header('Location: ./accueil.php');
+                    } else {
+                        echo $errMsg;
+                    }
+                } else {
+                    echo "Veuillez remplir tous les champs du formulaire";
+                }
             ?>
-
-
 
         </div>
         <div class="creer_compte">
-            <div class="text-block">Déjà membre ?</div><a href="connexion.html" class="se_connecter_bouton w-button">Se
-                connecter</a>
+            <div class="text-block">Déjà membre ?</div>
+            <a href="connexion.html" class="se_connecter_bouton w-button">Se connecter</a>
         </div>
     </div>
 </body>
