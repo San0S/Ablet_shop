@@ -29,7 +29,7 @@ $db_config['SGBD'] = 'mysql';
 $db_config['HOST'] = 'localhost';
 $db_config['DB_NAME'] = 'tpweb_devweb';
 $db_config['USER'] = 'root';
-$db_config['PASSWORD'] = '';
+$db_config['PASSWORD'] = 'root';
 
 try {
     $db = new PDO($db_config['SGBD'].':host='.$db_config['HOST'].';dbname='.$db_config['DB_NAME'], $db_config['USER'], $db_config['PASSWORD'], 

@@ -30,7 +30,7 @@
 
 <body class="body">
     <div class="menu">
-        <a class="logo" href="./accueil.html">
+        <a class="logo" href="accueil.php">
             <img src="./img/logo.png" alt="ablet logo" />
         </a>
         <div class="search_part">
@@ -51,7 +51,7 @@
                     <div class="bonjour">Bonjour</div>
                     <div class="username"><?php echo $_SESSION['prenom']; ?></div>
                 </div>
-                <a href="modification.view.php">
+                <a href="../modele/modification.php">
                 <img src="./icons/account.png" alt="User account icon" class="user_account" />
                 </a>
             </div>
