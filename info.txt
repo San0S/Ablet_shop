@@ -7,18 +7,18 @@ Groupe 1.2
 
 - Connexion du gestionnaire de l'application : 
 
-Mail : 
+Login : 
 Mot de passe : 
 
 - Identifiant et mot de passe de deux clients : 
 
 Client 1 
 
-Mail : 
-Mot de passe : 
+Login : farfad2
+Mot de passe : FAR%10le
 
 
 Client 2
 
-Mail : 
-Mot de passe : 
+Login : kirman1
+Mot de passe : JeZa8?
