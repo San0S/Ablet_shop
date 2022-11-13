@@ -1,5 +1,5 @@
 <?php
-    include_once '../modele/connexion.php';
+    include_once '../modele/db.php';
 ?>
 
 <!DOCTYPE html>
@@ -88,7 +88,7 @@
         </div>
         <div class="creer_compte">
             <div class="text-block">Première visite ?</div>
-            <a href="inscription.html" class="creer_compte_bouton w-button">Créer un compte</a>
+            <a href="../modele/inscription.php" class="creer_compte_bouton w-button">Créer un compte</a>
         </div>
     </div>
 </body>

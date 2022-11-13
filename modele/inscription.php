@@ -1,5 +1,5 @@
 <?php
-    require_once '../modele/connexion.php';
+    require_once '../modele/db.php';
 ?>
 
 <!DOCTYPE html>
@@ -140,9 +140,9 @@
                                             VALUES(:nom, :prenom, :civilite, :mail, :login, :mdp)');
                     
                     $query->execute(array(
-                        'nom' => strtoupper($nom), // nom en maj dans la bdd
+                        'nom' => strtoupper($nom),
                         'prenom' => $prenom,
-                        'civilite' => $civilite, // trouver moyen pour transformer Monsieur en M. et Madame en Mme. selon choix
+                        'civilite' => $civilite,
                         'mail' => $mail,
                         'login' => $login,
                         'mdp' => $mdp

@@ -1,6 +1,6 @@
 <?php
     session_start();
-    include_once '../modele/connexion.php';
+    include_once '../modele/db.php';
 ?>
 
 
