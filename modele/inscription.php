@@ -8,17 +8,17 @@
 <head>
     <meta charset="utf-8" />
     <title>Inscription - Aublet</title>
-    <link href="css/style_inscription.css" rel="stylesheet" type="text/css" />
-    <link href="./img/logo_img.png" rel="shortcut icon" type="image/x-icon" />
+    <link href="../vue/css/style_inscription.css" rel="stylesheet" type="text/css" />
+    <link href="../vue/img/logo_img.png" rel="shortcut icon" type="image/x-icon" />
 </head>
 
 <body class="body">
     <div class="menu">
-        <img src="./img/logo.png" alt="ablet logo" class="logo" />
+        <img src="../vue/img/logo.png" alt="ablet logo" class="logo" />
     </div>
     <div class="form">
         <div class="form_block w-form">
-            <div class="en_tete_form"><img src="./icons/account.png" alt="account icon" />
+            <div class="en_tete_form"><img src="../vue/icons/account.png" alt="account icon" />
                 <h1 class="heading">Bienvenue !</h1>
             </div>
             <form id="wf-form-inscription-form" name="wf-form-inscription-form" data-name="inscription form" method="post" class="inscription_form">
@@ -157,7 +157,7 @@
                     $_SESSION['mdp'] = $mdp;
 
                     // Si tout s'est bien passé, on exécute la requête et on redirige vers la page d'accueil
-                    header('Location: ./accueil.php');
+                    header('Location: ../vue/accueil.php');
                     } else {
                         echo $errMsg;
                     }
@@ -169,7 +169,7 @@
         </div>
         <div class="creer_compte">
             <div class="text-block">Déjà membre ?</div>
-            <a href="connexion.html" class="se_connecter_bouton w-button">Se connecter</a>
+            <a href="../vue/connexion.php" class="se_connecter_bouton w-button">Se connecter</a>
         </div>
     </div>
 </body>
