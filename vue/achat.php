@@ -6,6 +6,94 @@
 
 <!DOCTYPE html>
 <html>
+    <?php
+
+        function articleDansCaddie(string $refart): bool {
+            global $db;
+            $requete = $db->prepare('SELECT * FROM caddie WHERE idutilisateur='.$_SESSION['idutilisateur'].' AND refart='.$refart.';');
+            $requete->execute();
+
+            $nbResult = $requete->rowCount();
+            if ($nbResult != 0) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+
+        function ajouterArticleCaddie(string $refart) {
+            global $db;
+
+            if (!articleDansCaddie($refart)) {
+                $requete = 'INSERT INTO caddie(idutilisateur, refart, qte)
+                        VALUES ("'.$_SESSION['idutilisateur'].'", "'.$refart.'", "1");';
+            } else {
+                $requete = 'UPDATE caddie
+                            SET qte = qte+1
+                            WHERE idutilisateur='.$_SESSION['idutilisateur'].' AND refart='.$refart.';';
+            }
+            $db->exec($requete);
+        }
+
+        function nouveauCaddie() {
+            global $db;
+            $requete = 'DELETE  
+                        FROM caddie
+                        WHERE idutilisateur='.$_SESSION['idutilisateur'].';';
+            $db->exec($requete);
+        }
+
+        function supprimerArticle(string $refart) {
+            global $db;
+            $requete = 'DELETE
+                        FROM caddie
+                        WHERE idutilisateur='.$_SESSION['idutilisateur'].' AND refart='.$refart.';';
+            $db->exec($requete);
+        }
+
+        function reduireArticle(string $refart) {
+            global $db;
+            $requete = 'UPDATE caddie
+                        SET qte = qte-1
+                        WHERE idutilisateur='.$_SESSION['idutilisateur'].' AND refart='.$refart.';';
+            $db->exec($requete);
+        }
+
+        if (isset($_GET['fct'])) {
+            switch ($_GET['fct']) {
+                case 'viderPanier':
+                    nouveauCaddie();
+                    break;
+                
+                case 'suppArticle':
+                    supprimerArticle($_GET['art']);
+                    break;
+
+                case 'redArticle':
+                    reduireArticle($_GET['art']);
+                    break;
+
+                case 'ajoutArticle':
+                    ajouterArticleCaddie($_GET['art']);
+                    break;
+
+                default:
+                    # code...
+                    break;
+            }
+        } elseif (isset($_GET['art'])) {
+            ajouterArticleCaddie($_GET['art']);
+            header('Location: ./achat.php');
+        }
+
+
+
+
+    ?>
+
+
+
 
 <head>
     <meta charset="utf-8" />
@@ -123,7 +211,7 @@
                 } else {
                     echo $article['pu'];
                 }    
-                echo '€</div><a href="#" class="achat w-inline-block">';
+                echo '€</div><a href="./achat.php?art='.$article['refart'].'" class="achat w-inline-block">';
                 echo '<img src="./icons/shopping-cart_white.png" sizes="(max-widht: 767px) 100vw, (max-width: 991px) 4vw, 30px" alt="shopping_cart_icons" class="caddie_icon"/></a>';
                 echo '</div></div></div>';
 
@@ -151,7 +239,7 @@
 
 
 
-    <div id="affichage_apercu_panier">
+    <div id="affichage_apercu_panier" style="display:<?php if(isset($_GET['cad'])){echo "block";}else{echo "none";} ?>">
         <div class="apercu_panier">
             <?php 
                 echo '<div class="en_tete_apercu">';
@@ -177,7 +265,7 @@
                 echo '<div class="liste_articles_parnier">';
                 
 
-                $requete =  'SELECT designation, qte, pu, remise, imagelien
+                $requete =  'SELECT designation, qte, pu, remise, imagelien, article.refart AS refart
                 FROM caddie 
                 INNER JOIN article ON caddie.refart = article.refart 
                 WHERE idutilisateur = '.$_SESSION['idutilisateur'].';';
@@ -209,22 +297,29 @@
 
                     echo '<div class="prix_article_panier">'.number_format($prix, 2).'€</div>';
                     echo '<div class="gestion_qte_article_panier">';
-
+                    
                     if ($article['qte'] == 1) {
-                        echo '<img src="./icons/delete.png" sizes="(max-width: 479px) 20vw, (max-width: 767px) 4vw, (max-width: 991px) 3vw, 2vw" alt="supprimer" class="qte" />';
+                        echo '<a href="./achat.php?fct=suppArticle&art='.$article['refart'].'&cad=on" class="qte">';
+                        echo '<img src="./icons/delete.png" alt="supprimer" />';
+                        echo '</a>';
                     } else {
-                        echo '<img src="./icons/minus.png" alt="" class="qte" />';
+                        echo '<a href="./achat.php?fct=redArticle&art='.$article['refart'].'&cad=on" class="qte">';
+                        echo '<img src="./icons/minus.png" alt="reduire"/>';
+                        echo '</a>';
                     }
                     
                     echo '<div class="nb_article_panier">'.number_format($article['qte'], 0).'</div>';
                     
-                    echo '<img src="./icons/plus.png" sizes="(max-width: 479px) 20vw, (max-width: 767px) 4vw, (max-width: 991px) 3vw, 19.600006103515625px" alt="" class="qte" />';
+                    echo '<a href="./achat.php?fct=ajoutArticle&art='.$article['refart'].'&cad=on" class="qte">';
+                    echo '<img src="./icons/plus.png" alt="ajouter"/>';
+                    echo '</a>';
+
                     echo '</div>';
-                    echo '</div><a href="#" class="supprimer_article">Supprimer</a>';
+                    echo '</div><a href="./achat.php?fct=suppArticle&art='.$article['refart'].'&cad=on" class="supprimer_article">Supprimer</a>';
                     echo '</div>';  
                 }
 
-                echo '<a href="#" class="link-block w-inline-block">';
+                echo '<a href="./achat.php?fct=viderPanier&cad=on" class="link-block w-inline-block">';
                 echo '<img src="./icons/delete_grey.png" sizes="(max-width: 479px) 13vw, 30px" alt="supprimer" class="image-10" />';
                 echo '<div>Vider mon panier</div>';
                 echo '</a>';
@@ -234,7 +329,7 @@
                 echo '<div class="montant_total_panier">';
                 echo '<div class="total">Total :</div>';
                 echo '<div class="total_euro">'.number_format($montantTotal, 2).'€</div>';
-                echo '</div><a href="#" class="valider_panier w-inline-block">';
+                echo '</div><a href="./accueil.php" class="valider_panier w-inline-block">';
                 echo '<img src="./icons/shopping-cart_white.png" sizes="(max-width: 479px) 100vw, (max-width: 767px) 58px, 9vw" alt="" class="caddie_icon" />';
                 echo '<div class="text-block-21">Valider mon panier</div>';
                 echo '</a>';  
