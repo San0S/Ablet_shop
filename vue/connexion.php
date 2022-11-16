@@ -75,7 +75,7 @@
                     }
 
                     if ($loggedUser) {
-                        redirect_to('./achat.php');
+                        redirect_to('./accueil.php');
                     } elseif (isset($errorMessage)) {
                         echo $errorMessage;
                     }else {

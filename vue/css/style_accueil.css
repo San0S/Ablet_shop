@@ -2944,6 +2944,16 @@ textarea.w-select {
   text-align: center;
 }
 
+
+.text-content {
+  cursor: pointer;
+  opacity: 0;
+  -webkit-transition: opacity 1s;
+  -moz-transition: opacity 1s;
+  -o-transition: opacity 1s;
+  transition: opacity 1s;
+}
+
 .user_message {
   display: -webkit-box;
   display: -webkit-flex;
