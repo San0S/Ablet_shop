@@ -1,6 +1,6 @@
 <?php
-    session_start(); 
-    require_once './db.php';
+session_start();
+require_once './db.php';
 ?>
 
 
@@ -16,7 +16,7 @@
 
 <body class="body">
     <div class="menu">
-    <a class="logo" href="../vue/accueil.php">
+        <a class="logo" href="../vue/accueil.php">
             <img src="../vue/img/logo.png" width="113px" alt="ablet logo" />
         </a>
         <div class="search_part">
@@ -53,7 +53,7 @@
                 <div class="input_part">
                     <div class="inputs_side">
                         <label for="prenom" class="field-label">Prénom</label>
-                        <input type="text" value="<?php echo $_SESSION['prenom']?>" class="text-field w-input" autofocus="true" maxlength="256" name="prenom" data-name="prenom" placeholder="" id="prenom" />
+                        <input type="text" value="<?php echo $_SESSION['prenom'] ?>" class="text-field w-input" autofocus="true" maxlength="256" name="prenom" data-name="prenom" placeholder="" id="prenom" />
                         <label for="mail" class="field-label">Mail</label>
                         <input type="text" class="text-field w-input" maxlength="256" name="mail" data-name="mail" value="<?php echo $_SESSION['mel']; ?>" id="mail" />
                     </div>
@@ -81,22 +81,17 @@
                         </label>
                     </div>
                 </div>
-                <!-- <div class="modifier"><a href="../vue/accueil.php" class="modifier_bouton w-button" target="_blank">Modifier</a></div> -->
-                <div class="modifier"><button type="submit" class="modifier_bouton w-button">Modifier</button></div>
+                <div class="modifier"><button type="submit" name="modifier" class="modifier_bouton w-button">Modifier</button></div>
             </form>
         </div>
     </div>
 </body>
-
 </html>
 
 
-
 <?php
-// $currentmdp = $_SESSION['mdp'];
-$idSes = session_id();
-
-function mailExiste($mail): bool {
+function mailExiste($mail): bool
+{
     global $db;
     $query = $db->prepare('SELECT * FROM utilisateur WHERE mel = :mail');
     $query->execute(array(
@@ -110,67 +105,45 @@ function mailExiste($mail): bool {
     }
 }
 
-// function verifMdpChangement($old_mdp, $currentmdp): bool {
-//     if ($old_mdp == $currentmdp) {
-//         return true;
-//     } else {
-//         return false;
-//     }
-// }
 
-var_dump($_POST);
+$prenom = $_POST['prenom'];
+$radio = $_POST['radio'];
+$old_mdp = $_POST['old_mdp'];
+$new_mdp = $_POST['new_mdp'];
+$mail = $_POST['mail'];
+$userid = $_SESSION['idutilisateur'];
+
+if (mailExiste($mail)) {
+    $errMsg = "Ce mail est déjà utilisé";
+}
 
 
+$query = $db->prepare('UPDATE utilisateur SET prenom = :prenom, civilite = :radio, mdp = :new_mdp, mel = :mail WHERE idutilisateur = :idutilisateur');
+$query->execute(array(
+    'prenom' => $prenom,
+    'radio' => $radio,
+    'new_mdp' => $new_mdp,
+    'mail' => $mail,
+    'idutilisateur' => $userid
+));
 
-// if (isset($_POST['prenom']) && isset($_POST['radio']) && isset($_POST['old_mdp']) && isset($_POST['new_mdp']) && isset($_POST['mail'])) {
+$_SESSION['sid'] = $idSes;
+$_SESSION['prenom'] = $prenom;
+$_SESSION['civilite'] = $radio;
+$_SESSION['mel'] = $mail;
+$_SESSION['mdp'] = $new_mdp;
 
-    $prenom = $_POST['prenom'];
-    $radio = $_POST['radio'];
-    $old_mdp = $_POST['old_mdp'];
-    $new_mdp = $_POST['new_mdp'];
-    $mail = $_POST['mail'];
-    $userid = $_SESSION['idutilisateur'];
 
-    if (mailExiste($mail)) {
-        $errMsg = "Ce mail est déjà utilisé";
-    }
+// On redirige vers la page d'accueil si tout se passe bien
+if ($_SESSION['login'] == "admin") {
+    header('Location: ../vue/admin/accueil_gestionnaire.php');
+} 
+else {
+     header('Location: ../vue/accueil.php');
+}
     
 
-    // $requete = 'UPDATE utilisateur SET prenom='.$prenom.', mel='.$mail.', mpd='.$new_mdp.', civilite='.$radio.' WHERE idutilisateur='.$userid.';';
-    // $db->exec($requete);
 
-    $query = $db->prepare('UPDATE utilisateur SET prenom = :prenom, civilite = :radio, mdp = :new_mdp, mel = :mail WHERE idutilisateur = :idutilisateur');
-    $query->execute(array(
-        'prenom' => $prenom,
-        'radio' => $radio,
-        'new_mdp' => $new_mdp,
-        'mail' => $mail,
-        'idutilisateur' => $userid
-    ));
-
-    $_SESSION['sid'] = $idSes;
-    $_SESSION['prenom'] = $prenom;
-    $_SESSION['civilite'] = $radio;
-    $_SESSION['mel'] = $mail;
-    $_SESSION['mdp'] = $new_mdp;
-//  exit();   
-
-    // On redirige vers la page d'accueil si tout se passe bien
-   // if ($_SESSION['login'] == "admin") {
-   //     header('Location: ../vue/admin/accueil_gestionnaire.php');
-   // } else {
-        header('Location: ../vue/accueil.php');
-   // }
-    
-    // if (!mailExiste($mail)) {
-    //     if (verifMdpChangement($old_mdp, $currentmdp)) {
-    //     } else {
-    //         echo 'Veuillez remplir tous les champs du formulaire';
-    //     }  
-    // } else {
-    //     echo $errMsg;
-    // }
-    // }
 
 
 
