@@ -15,7 +15,10 @@
 </head>
 
 <body class="body">
-    <div class="menu"><img src="./img/logo.png" alt="ablet logo" class="logo" />
+    <div class="menu">
+    <a class="logo" href="../vue/accueil.php">
+            <img src="../vue/img/logo.png" width="113px" alt="ablet logo" />
+        </a>
         <div class="search_part">
             <img src="../vue/icons/hand_shopping-cart.png" sizes="60px" alt="hand shopcart icon" class="panier" />
             <div class="search_form_block w-form">
@@ -135,7 +138,7 @@ if (isset($_POST['prenom']) && isset($_POST['radio']) && isset($_POST['old_mdp']
 
     if (!mailExiste($mail)) {
         if (verifMdpChangement($old_mdp, $currentmdp)) {
-            $query = $db->prepare('UPDATE utilisateur SET prenom = :prenom, civilite = :radio, mdp = :new_mdp, mel = :mail WHERE mel = :mail');
+            $query = $db->prepare('UPDATE utilisateur SET prenom = :prenom, civilite = :radio, mdp = :new_mdp, mel = :mail WHERE idutilisateur = :idutilisateur');
             $query->execute(array(
                 'prenom' => $prenom,
                 'radio' => $radio,
