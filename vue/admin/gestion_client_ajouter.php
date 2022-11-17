@@ -141,7 +141,7 @@ if (isset($_POST['prenom']) && isset($_POST['radio']) && isset($_POST['old_mdp']
 
     if (!mailExiste($mail)) {
         if (verifMdpChangement($old_mdp, $currentmdp)) {
-            $query = $db->prepare('UPDATE utilisateur SET prenom = :prenom, civilite = :radio, mdp = :new_mdp, mel = :mail WHERE mel = :mail');
+            $query = $db->prepare('UPDATE utilisateur SET prenom = :prenom, civilite = :radio, mdp = :new_mdp, mel = :mail WHERE idutilisateur = :idutilisateur');
             $query->execute(array(
                 'prenom' => $prenom,
                 'radio' => $radio,
