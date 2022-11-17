@@ -2305,6 +2305,9 @@ textarea.w-select {
   display: flex !important
 }
 
+/* ==========================================================================
+      Start of custom Webflow CSS
+      ========================================================================== */
 .utility-page-wrap {
   display: -webkit-box;
   display: -webkit-flex;
@@ -2356,6 +2359,8 @@ textarea.w-select {
 
 .body {
   display: block;
+  overflow: auto;
+  padding-top: 10vh;
   -webkit-justify-content: space-around;
   -ms-flex-pack: distribute;
   justify-content: space-around;
@@ -2669,11 +2674,16 @@ textarea.w-select {
 }
 
 .menu {
+  position: fixed;
+  z-index: 998;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
+  overflow: visible;
+  width: 100vw;
   height: 10vh;
+  margin-top: -10vh;
   -webkit-box-pack: start;
   -webkit-justify-content: flex-start;
   -ms-flex-pack: start;
@@ -3323,10 +3333,10 @@ textarea.w-select {
 
 
 
-
+/* 
 #affichage_apercu_panier {
   display: none;
-}
+} */
 
 .apercu_panier {
   position: fixed;

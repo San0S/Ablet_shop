@@ -77,23 +77,12 @@
                 case 'ajoutArticle':
                     ajouterArticleCaddie($_GET['art']);
                     break;
-
-                default:
-                    # code...
-                    break;
             }
         } elseif (isset($_GET['art'])) {
             ajouterArticleCaddie($_GET['art']);
             header('Location: ./achat.php');
         }
-
-
-
-
     ?>
-
-
-
 
 <head>
     <meta charset="utf-8" />
@@ -125,7 +114,9 @@
                     <div class="bonjour">Bonjour</div>
                     <div class="username"><?php echo $_SESSION['prenom']; ?></div>
                 </div>
-                <img src="./icons/account.png" alt="User account icon" class="user_account" />
+                <a href="../modele/modification.php">
+                    <img src="./icons/account.png" alt="User account icon" class="user_account" />
+                </a>
             </div>
             <button class="caddie_utilisateur" onclick="on()">
                 <img src="./icons/shopping-cart.png" alt="shopcart icon" class="caddie_logo" />
@@ -252,7 +243,7 @@
             <?php 
                 echo '<div class="en_tete_apercu">';
                 echo '<img src="./icons/hand_shopping-cart.png" sizes="(max-width: 479px) 100vw, (max-width: 767px) 24vw, 178px" alt="" class="panier_icon" />';
-                echo '<div class="titre_apercu_panier">Aperçu du panier :</div>';
+                echo '<div class="titre_apercu_panier">Votre panier :</div>';
                 $requete =  'SELECT designation, qte, pu, remise, imagelien
                             FROM caddie 
                             INNER JOIN article ON caddie.refart = article.refart 

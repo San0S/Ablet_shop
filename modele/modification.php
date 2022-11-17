@@ -16,8 +16,8 @@
 
 <body class="body">
     <div class="menu">
-    <a class="logo" href="../vue/accueil.php">
-            <img src="../vue/img/logo.png" width="113px" alt="ablet logo" />
+        <a class="logo" href="../vue/accueil.php">
+            <img src="../vue/img/logo.png" alt="ablet logo" />
         </a>
         <div class="search_part">
             <img src="../vue/icons/hand_shopping-cart.png" sizes="60px" alt="hand shopcart icon" class="panier" />
