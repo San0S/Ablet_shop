@@ -58,10 +58,7 @@
             $db->exec($requete);
         }
 
-        if (isset($_GET['nouveau'])) {
-            nouveauCaddie();
-            header('Location: ./achat.php');
-        }
+        
 
         if (isset($_GET['fct'])) {
             switch ($_GET['fct']) {
@@ -81,8 +78,8 @@
                     ajouterArticleCaddie($_GET['art']);
                     break;
             }
-        } elseif (isset($_GET['art'])) {
-            ajouterArticleCaddie($_GET['art']);
+        } elseif (isset($_GET['nouveau'])) {
+            nouveauCaddie();
             header('Location: ./achat.php');
         }
     ?>
@@ -193,7 +190,7 @@
 
 
 
-    <div id="affichage_apercu_panier">
+    <div id="affichage_apercu_panier" style="<?php if(isset($_GET['cad'])) { echo "display:block;";} else { echo "display:none;";} ?>">
         <div class="apercu_panier">
             <?php 
                 echo '<div class="en_tete_apercu">';
