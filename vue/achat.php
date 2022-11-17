@@ -194,7 +194,15 @@
                 echo '<div class="details_article"><div class="infos_article"><div class="div-block-12"><div class="text-block-9">Ref : </div>';
                 echo '<div class="text-block-10">'.$article['refart'].'</div></div>';
                 echo '<div class="div-block-12"><div class="text-block-9">Qte : </div>';
-                echo '<div class="text-block-10">'.$article['unitecond'].'</div></div></div>';
+                echo '<div class="text-block-10">'.$article['unitecond'].'</div></div>';
+
+                if ($_SESSION['login'] == "admin") {
+                    echo '<div class="div-block-12" style="margin-top: 10%;">';
+                    echo '<a href="." class="achat w-inline-block" style="margin-right: 20px;"><img src="./icons/edit_white.png" sizes="(max-widht: 767px) 100vw, (max-width: 991px) 4vw, 30px" alt="shopping_cart_icons" style="margin-right: 0;" class="caddie_icon"/></a>';
+                    echo '<a href="." class="achat w-inline-block"><img src="./icons/delete_white.png" sizes="(max-widht: 767px) 100vw, (max-width: 991px) 4vw, 30px" alt="shopping_cart_icons" style="margin-right: 0;" class="caddie_icon"/></a>';
+                    echo '</div>';
+                }
+                echo '</div>';
                 echo '<div class="prix-achat">';
                 
                 if ($article['remise'] != 0) {

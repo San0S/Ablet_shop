@@ -30,12 +30,6 @@
                 <input type="password" class="text-field w-input" maxlength="256" name="mdp" data-name="mdp"
                     placeholder="" id="mdp" required="Veuillez renseigner votre mot de passe" />
                 <div class="sous_input">
-                    <label class="w-checkbox checkbox-field">
-                        <input type="checkbox" id="checkbox" name="checkbox" data-name="Checkbox"
-                            class="w-checkbox-input" />
-                        <span class="checkbox-label w-form-label" for="checkbox">Rester connecté</span>
-                    </label>
-                    <a href="#" class="mdp_oublie">Mot de passe oublié ?</a>
                 </div>
                 <div class="connecter">
                     <button type="submit" class="connecter_bouton w-button">Se connecter</button>
@@ -67,6 +61,7 @@
                             $_SESSION['prenom'] = $user['prenom'];
                             $_SESSION['civilite'] = $user['civilite'];
                             $_SESSION['mel'] = $user['mel'];
+                            $_SESSION['login'] = $user['login'];
                             
 
                         } else if ($user['login'] === $_POST['login'] && $user['mdp'] != $_POST['mdp']) {
@@ -75,7 +70,11 @@
                     }
 
                     if ($loggedUser) {
-                        redirect_to('./accueil.php');
+                        if ($_SESSION['login'] == "admin") {
+                            redirect_to('./admin/accueil_gestionnaire.php');
+                        } else {
+                            redirect_to('./accueil.php');
+                        }
                     } elseif (isset($errorMessage)) {
                         echo $errorMessage;
                     }else {

@@ -114,8 +114,8 @@
             </div>
             <div class="texte_accueil">Que voulez-vous faire aujourd&#x27;hui ?</div>
             <div class="boutons">
-                <a href="../achat.php" name="reprendre" value="reprendre" class="accueil_bouton w-button">Ajouter un article</a>
-                <button onclick="on()" name="modifier" value="modifier" class="accueil_bouton w-button">Consulter la liste des articles</button>
+                <a href="./gestion_article_ajouter.php" name="ajouter" value="ajouter" class="accueil_bouton w-button">Ajouter un article</a>
+                <a href="../achat.php" name="liste" value="liste" class="accueil_bouton w-button">Consulter la liste des articles</a>
                 <input type="file"  name="nouveau" value="nouveau" class="accueil_bouton w-button">
 
             </div>
