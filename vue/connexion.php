@@ -62,6 +62,7 @@
                             $_SESSION['civilite'] = $user['civilite'];
                             $_SESSION['mel'] = $user['mel'];
                             $_SESSION['login'] = $user['login'];
+                            $_SESSION['mpd'] = $user['mdp'];
                             
 
                         } else if ($user['login'] === $_POST['login'] && $user['mdp'] != $_POST['mdp']) {

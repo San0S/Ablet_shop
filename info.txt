@@ -7,8 +7,8 @@ Groupe 1.2
 
 - Connexion du gestionnaire de l'application : 
 
-Login : 
-Mot de passe : 
+Login : admin
+Mot de passe : admin 
 
 - Identifiant et mot de passe de deux clients : 
 

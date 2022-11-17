@@ -193,7 +193,7 @@
                 echo '<div class="nom_article">'.$article['designation'].'</div>';
                 echo '<div class="details_article"><div class="infos_article"><div class="div-block-12"><div class="text-block-9">Ref : </div>';
                 echo '<div class="text-block-10">'.$article['refart'].'</div></div>';
-                echo '<div class="div-block-12"><div class="text-block-9">Qte : </div>';
+                echo '<div class="div-block-12"><div class="text-block-9">Cond : </div>';
                 echo '<div class="text-block-10">'.$article['unitecond'].'</div></div>';
 
                 if ($_SESSION['login'] == "admin") {
@@ -273,7 +273,7 @@
                 echo '<div class="liste_articles_parnier">';
                 
 
-                $requete =  'SELECT designation, qte, pu, remise, imagelien, article.refart AS refart
+                $requete =  'SELECT designation, qte, pu, remise, imagelien, unitecond, article.refart AS refart
                 FROM caddie 
                 INNER JOIN article ON caddie.refart = article.refart 
                 WHERE idutilisateur = '.$_SESSION['idutilisateur'].';';
@@ -292,8 +292,8 @@
                     echo '<div class="text-block-23">'.$article['designation'].'</div>';
                     
                     echo '<div class="div-block-23">';
-                    echo '<div class="text-block-28">Qte :</div>';
-                    echo '<div>'.$article['qte'].'</div>';
+                    echo '<div class="text-block-28">Cond :</div>';
+                    echo '<div>'.$article['unitecond'].'</div>';
                     echo '</div>';
                     echo '</div>';
                     if ($article['remise'] != 0) {

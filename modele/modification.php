@@ -1,6 +1,6 @@
 <?php
     session_start(); 
-    require_once 'db.php';
+    require_once './db.php';
 ?>
 
 
@@ -54,8 +54,8 @@
                     <div class="inputs_side">
                         <label for="prenom" class="field-label">Prénom</label>
                         <input type="text" value="<?php echo $_SESSION['prenom']?>" class="text-field w-input" autofocus="true" maxlength="256" name="prenom" data-name="prenom" placeholder="" id="prenom" />
-                        <label for="nom" class="field-label">Mail</label>
-                        <input type="text" class="text-field w-input" maxlength="256" name="nom" data-name="nom" value=<?php echo $_SESSION['mel'] ?> id="nom" />
+                        <label for="mail" class="field-label">Mail</label>
+                        <input type="text" class="text-field w-input" maxlength="256" name="mail" data-name="mail" value="<?php echo $_SESSION['mel']; ?>" id="mail" />
                     </div>
                     <div class="inputs_side">
                         <label for="old_mdp" class="field-label">Ancien mot de passe</label>
@@ -68,21 +68,21 @@
                     <div class="field-label">Civilité</div>
                     <div class="radios_bouton">
                         <label class="radio-button-field w-radio">
-                            <input type="radio" id="Monsieur" name="radio" value="Monsieur" data-name="Radio" class="w-form-formradioinput w-radio-input" />
+                            <input type="radio" id="Monsieur" name="radio" value="Mr." data-name="Radio" class="w-form-formradioinput w-radio-input" />
                             <span class="w-form-label" for="Monsieur">Monsieur</span>
                         </label>
                         <label class="w-radio">
-                            <input type="radio" id="Madame" name="radio" value="Madame" data-name="Radio" class="w-form-formradioinput w-radio-input" />
+                            <input type="radio" id="Madame" name="radio" value="Mme." data-name="Radio" class="w-form-formradioinput w-radio-input" />
                             <span class="w-form-label" for="Madame">Madame</span>
                         </label>
                         <label class="w-radio">
-                            <input type="radio" id="radio" name="radio" value="Radio" data-name="Radio" class="w-form-formradioinput w-radio-input" />
+                            <input type="radio" id="radio" name="radio" value="Mx." data-name="Radio" class="w-form-formradioinput w-radio-input" />
                             <span class="w-form-label" for="radio">Autre</span>
                         </label>
                     </div>
                 </div>
                 <!-- <div class="modifier"><a href="../vue/accueil.php" class="modifier_bouton w-button" target="_blank">Modifier</a></div> -->
-                <div class="modifier"><button type="submit" class="modifier_bouton w-button" target="_blank">Modifier</button></div>
+                <div class="modifier"><button type="submit" class="modifier_bouton w-button">Modifier</button></div>
             </form>
         </div>
     </div>
@@ -93,7 +93,7 @@
 
 
 <?php
-$currentmdp = $_SESSION['mdp'];
+// $currentmdp = $_SESSION['mdp'];
 $idSes = session_id();
 
 function mailExiste($mail): bool {
@@ -110,61 +110,67 @@ function mailExiste($mail): bool {
     }
 }
 
-function verifMdpChangement($old_mdp, $currentmdp): bool {
-    if ($old_mdp == $currentmdp) {
-        return true;
-    } else {
-        return false;
-    }
-}
+// function verifMdpChangement($old_mdp, $currentmdp): bool {
+//     if ($old_mdp == $currentmdp) {
+//         return true;
+//     } else {
+//         return false;
+//     }
+// }
+
+var_dump($_POST);
 
 
 
-if (isset($_POST['prenom']) && isset($_POST['radio']) && isset($_POST['old_mdp']) && isset($_POST['new_mdp']) && isset($_POST['mail'])) {
+// if (isset($_POST['prenom']) && isset($_POST['radio']) && isset($_POST['old_mdp']) && isset($_POST['new_mdp']) && isset($_POST['mail'])) {
 
     $prenom = $_POST['prenom'];
     $radio = $_POST['radio'];
     $old_mdp = $_POST['old_mdp'];
     $new_mdp = $_POST['new_mdp'];
     $mail = $_POST['mail'];
+    $userid = $_SESSION['idutilisateur'];
 
     if (mailExiste($mail)) {
         $errMsg = "Ce mail est déjà utilisé";
     }
-    if (!verifMdpChangement($old_mdp, $currentmdp)) {
-        $errMsg = "Ancien mot de passe incorrect, veuillez réessayer";
-    }
+    
 
+    // $requete = 'UPDATE utilisateur SET prenom='.$prenom.', mel='.$mail.', mpd='.$new_mdp.', civilite='.$radio.' WHERE idutilisateur='.$userid.';';
+    // $db->exec($requete);
 
-    if (!mailExiste($mail)) {
-        if (verifMdpChangement($old_mdp, $currentmdp)) {
-            $query = $db->prepare('UPDATE utilisateur SET prenom = :prenom, civilite = :radio, mdp = :new_mdp, mel = :mail WHERE idutilisateur = :idutilisateur');
-            $query->execute(array(
-                'prenom' => $prenom,
-                'radio' => $radio,
-                'new_mdp' => $new_mdp,
-                'mel' => $mail
-            ));
+    $query = $db->prepare('UPDATE utilisateur SET prenom = :prenom, civilite = :radio, mdp = :new_mdp, mel = :mail WHERE idutilisateur = :idutilisateur');
+    $query->execute(array(
+        'prenom' => $prenom,
+        'radio' => $radio,
+        'new_mdp' => $new_mdp,
+        'mail' => $mail,
+        'idutilisateur' => $userid
+    ));
 
-            $_SESSION['sid'] = $idSes;
-            $_SESSION['prenom'] = $prenom;
-            $_SESSION['civilite'] = $civilite;
-            $_SESSION['mel'] = $mail;
-            $_SESSION['mdp'] = $new_mdp;
-            
-            // On redirige vers la page d'accueil si tout se passe bien
-            if ($_SESSION['login'] == "admin") {
-                header('Location: ../vue/admin/accueil_gestionnaire.php');
-            } else {
-                header('Location: ../vue/accueil.php');
-            }
-        } else {
-            echo $errMsg;
-        }
-    } else {
-        echo 'Veuillez remplir tous les champs du formulaire';
-    }  
-}
+    $_SESSION['sid'] = $idSes;
+    $_SESSION['prenom'] = $prenom;
+    $_SESSION['civilite'] = $radio;
+    $_SESSION['mel'] = $mail;
+    $_SESSION['mdp'] = $new_mdp;
+//  exit();   
+
+    // On redirige vers la page d'accueil si tout se passe bien
+   // if ($_SESSION['login'] == "admin") {
+   //     header('Location: ../vue/admin/accueil_gestionnaire.php');
+   // } else {
+        header('Location: ../vue/accueil.php');
+   // }
+    
+    // if (!mailExiste($mail)) {
+    //     if (verifMdpChangement($old_mdp, $currentmdp)) {
+    //     } else {
+    //         echo 'Veuillez remplir tous les champs du formulaire';
+    //     }  
+    // } else {
+    //     echo $errMsg;
+    // }
+    // }
 
 
 
