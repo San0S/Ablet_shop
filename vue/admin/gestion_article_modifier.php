@@ -9,7 +9,7 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>Ajouter article - Aublet</title>
+    <title>Modifier article - Aublet</title>
     <link href="../css/style_modification.css" rel="stylesheet" type="text/css" />
     <link href="../img/logo_img.png" rel="shortcut icon" type="image/x-icon" />
 </head>
@@ -44,8 +44,8 @@
     <div class="form">
         <div class="modification_form_block w-form">
             <div class="en_tete_form">
-                <img src="../icons/plus_orange.png" alt="account icon" style="height: 80px;" />
-                <h1 class="heading">Ajouter</h1>
+                <img src="../icons/edit.png" alt="account icon" style="height: 80px;" />
+                <h1 class="heading">Modifier</h1>
             </div>
             <form id="wf-form-inscription-form" name="wf-form-inscription-form" data-name="inscription form" method="post" class="modification_form">
                 <div class="input_part">
@@ -68,7 +68,7 @@
                     </div>
                 </div>
                 <div class="modifier">
-                    <button type="submit" class="modifier_bouton w-button" target="_blank">Ajouter</button>
+                    <button type="submit" class="modifier_bouton w-button" target="_blank">Modifier</button>
                 </div>
             </form>
         </div>
