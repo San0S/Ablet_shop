@@ -7,6 +7,128 @@ require_once './db.php';
 <!DOCTYPE html>
 <html>
 
+
+    <?php
+
+        function mailExiste($mail): bool {
+            global $db;
+            $requete = "SELECT mel
+                        FROM utilisateur ;";
+            $usersmail = $db->prepare($requete);
+            $usersmail->execute();
+
+            foreach ($usersmail as $usermail) {
+                if ($usermail['mel'] == $mail) {
+                    return true;
+                }
+            }
+
+            return false;
+
+            
+            // $query->execute(array
+            //     'mail' => $mail
+            // ));
+            // $resquery = $query->rowCount();
+            // if ($resquery != 0) {
+            //     return true;
+            // } else {
+            //     return false;
+            // }
+        }
+
+        function verifFormatMail($mail): bool {
+            if (filter_var($mail, FILTER_VALIDATE_EMAIL)) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        function verifAncienMdp($mdp): bool {
+            global $db;
+            $requete = 'SELECT mdp
+                        FROM utilisateur
+                        WHERE idutilisateur='.$_SESSION['idutilisateur'].';';
+            $usermdp = $db->prepare($requete);
+            $usermdp->execute();
+
+            foreach($usermdp as $oldmdp) {
+                if ($oldmdp['mdp'] == $mdp) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        // if (isset($_GET['uid']) && $_GET['uid'] != '') {
+        //     $requete = 'SELECT *
+        //                 FROM utilisateur
+        //                 WHERE idutilisateur='.$_GET['uid'].';';
+        //     $users = $db->prepare($requete);
+        //     $users->execute();
+
+        //     foreach ($users as $user) {
+        //         $_SESSION['idutilisateur'] = $user['idutilisateur'];
+        //         $_SESSION['nom'] = $user['nom'];
+        //         $_SESSION['prenom'] = $user['prenom'];
+        //         $_SESSION['civilite'] = $user['civilite'];
+        //         $_SESSION['mel'] = $user['mel'];
+        //         $_SESSION['login'] = $user['login'];
+        //         $_SESSION['mdp'] = $user['mdp'];
+        //     }
+        // }
+
+
+        if (!empty($_POST) && verifAncienMdp($_POST['mdp'])) {
+            if ($_SESSION['prenom'] != $_POST['prenom']) {
+                $modifprenom = 'UPDATE utilisateur SET prenom="'.$_POST['prenom'].'" WHERE idutilisateur='.$_SESSION['idutilisateur'].';';
+                $db->exec($modifprenom);
+                $_SESSION['prenom'] = $_POST['prenom'];
+            }
+            if ($_SESSION['mel'] != $_POST['mel'] && !mailExiste($_POST['mel']) && verifFormatMail($_POST['mel'])) {
+                $modifmel = 'UPDATE utilisateur SET mel="'.$_POST['mel'].'" WHERE idutilisateur='.$_SESSION['idutilisateur'].';';
+                $db->exec($modifmel);
+                $_SESSION['mel'] = $_POST['mel'];
+            }
+            if ($_SESSION['civilite'] != $_POST['civilite']) {
+                $modifciv = 'UPDATE utilisateur SET civilite="'.$_POST['civilite'].'" WHERE idutilisateur='.$_SESSION['idutilisateur'].';';
+                $db->exec($modifciv);
+                $_SESSION['civilite'] = $_POST['civilite'];
+            }
+
+            if ($_SESSION['mdp'] != $_POST['new_mdp']) {
+                $modifmdp = 'UPDATE utilisateur SET mdp="'.$_POST['new_mdp'].'" WHERE idutilisateur='.$_SESSION['idutilisateur'].';';
+                $db->exec($modifmdp);
+                $_SESSION['mdp'] = $_POST['new_mdp'];
+            }
+
+            $referer = $_SERVER['HTTP_REFERER'];
+            header("Location: $referer");
+
+        }
+
+
+        //     if ($_POST['old_mdp'] == '') {
+        //         echo 'Veuillez rentrer votre ancien mot de passe pour enregistrer les modifications.';
+        //     } elseif(!verifAncienMdp($_POST['old_mdp'])) {
+        //         echo 'Ancien mot de passe incorrect.';
+        //     } else {
+        //         $requete =   'SELECT prenom, mel, civilite, mdp
+        //                     FROM utilisateur
+        //                     WHERE idutilisateur='.$_SESSION['idutilisateur'].';';
+        //         $userinfo = $db->prepare($requete);
+        //         $userinfo->execute();
+
+        //         foreach ($userinfo as $info) {
+        //             echo 'mel : "'.$info['mel'].'", civilite : "'.$info['civilite'].'", mdp : "'.$info['mdp'].'"';
+
+        //         }
+        //     }
+        // }
+    ?>
+
 <head>
     <meta charset="utf-8" />
     <title>Modification - Aublet</title>
@@ -55,11 +177,11 @@ require_once './db.php';
                         <label for="prenom" class="field-label">Prénom</label>
                         <input type="text" value="<?php echo $_SESSION['prenom']; ?>" class="text-field w-input" autofocus="true" maxlength="256" name="prenom" data-name="prenom" id="prenom" />
                         <label for="mel" class="field-label">Mail</label>
-                        <input type="text" class="text-field w-input" maxlength="256" name="mel" data-name="mel" value="<?php echo $_SESSION['mel']; ?>" id="mel" />
+                        <input type="mail" class="text-field w-input" maxlength="256" name="mel" data-name="mel" value="<?php echo $_SESSION['mel']; ?>" id="mel" />
                     </div>
                     <div class="inputs_side">
-                        <label for="old_mdp" class="field-label">Ancien mot de passe</label>
-                        <input type="password" class="text-field w-input" maxlength="256" name="old_mdp" data-name="old_mdp" placeholder="" id="old_mdp" required/>
+                        <label for="mdp" class="field-label">Ancien mot de passe</label>
+                        <input type="password" class="text-field w-input" maxlength="256" name="mdp" data-name="mdp" placeholder="" id="mdp" required/>
                         <label for="new_mdp" class="field-label">Nouveau mot de passe</label>
                         <input type="password" class="text-field w-input" maxlength="256" name="new_mdp" data-name="new_mdp" placeholder="" id="new_mdp" />
                     </div>
@@ -88,105 +210,21 @@ require_once './db.php';
 
             <?php
 
-                function mailExiste($mail): bool {
-                    global $db;
-                    $query = $db->prepare('SELECT * FROM utilisateur WHERE mel = :mail');
-                    $query->execute(array(
-                        'mail' => $mail
-                    ));
-                    $resquery = $query->rowCount();
-                    if ($resquery != 0) {
-                        return true;
-                    } else {
-                        return false;
-                    }
-                }
 
-                function verifAncienMdp($mdp): bool {
-                    global $db;
-                    $requete = 'SELECT mdp
-                                FROM utilisateur
-                                WHERE idutilisateur='.$_SESSION['idutilisateur'].';';
-                    $usermdp = $db->prepare($requete);
-                    $usermdp->execute();
-
-                    foreach($usermdp as $oldmdp) {
-                        if ($oldmdp['mdp'] == $mdp) {
-                            return true;
-                        }
-                    }
-
-                    return false;
-                }
-
-                if (isset($_POST['old_mdp'])) {
-                    if ($_POST['old_mdp'] == '') {
+                if (!empty($_POST)) {
+                    if ($_POST['mdp'] == '') {
                         echo 'Veuillez rentrer votre ancien mot de passe pour enregistrer les modifications.';
-                    } elseif(!verifAncienMdp($_POST['old_mdp'])) {
+                    } elseif(!verifAncienMdp($_POST['mdp'])) {
                         echo 'Ancien mot de passe incorrect.';
-                    } else {
-                        $requete =   'SELECT prenom, mel, civilite, mdp
-                                    FROM utilisateur
-                                    WHERE idutilisateur='.$_SESSION['idutilisateur'].';';
-                        $userinfo = $db->prepare($requete);
-                        $userinfo->execute();
-
-                        foreach ($userinfo as $info) {
-                            echo 'mel : "'.$info['mel'].'", civilite : "'.$info['civilite'].'", mdp : "'.$info['mdp'].'"';
-                            if ($info['prenom'] != $_POST['prenom']) {
-                                $modifprenom = 'UPDATE utilisateur SET prenom="'.$_POST['prenom'].'" WHERE idutilisateur='.$_SESSION['idutilisateur'].';';
-                                $db->exec($modifprenom);
-                                $_SESSION['prenom'] = $_POST['prenom'];
-                            }
-                            if ($info['mel'] != $_POST['mel']) {
-                                $modifmel = 'UPDATE utilisateur SET mel="'.$_POST['mel'].'" WHERE idutilisateur='.$_SESSION['idutilisateur'].';';
-                                $db->exec($modifmel);
-                                $_SESSION['mel'] = $_POST['mel'];
-                            }
-                            if ($info['civilite'] != $_POST['civilite']) {
-                                $modifciv = 'UPDATE utilisateur SET civilite="'.$_POST['civilite'].'" WHERE idutilisateur='.$_SESSION['idutilisateur'].';';
-                                $db->exec($modifciv);
-                                $_SESSION['civilite'] = $_POST['civilite'];
-                            }
-                        }
+                    } 
+                    
+                    if(mailExiste($_POST['mel'])) {
+                        echo "L'adresse mail renseignée est déjà utilisée, veuillez en choisir une autre.";
+                    } elseif (!verifFormatMail($_POST['mel'])) {
+                        echo "Le format du mail est incorrect.";
                     }
                 }
-                // $prenom = $_POST['prenom'];
-                // $radio = $_POST['radio'];
-                // $old_mdp = $_POST['old_mdp'];
-                // $new_mdp = $_POST['new_mdp'];
-                // $mail = $_POST['mail'];
-                // $userid = $_SESSION['idutilisateur'];
-
-                // if (mailExiste($mail)) {
-                //     $errMsg = "Ce mail est déjà utilisé";
-                // }
-
-
-                // $query = $db->prepare('UPDATE utilisateur SET prenom = :prenom, civilite = :radio, mdp = :new_mdp, mel = :mail WHERE idutilisateur = :idutilisateur');
-                // $query->execute(array(
-                //     'prenom' => $prenom,
-                //     'radio' => $radio,
-                //     'new_mdp' => $new_mdp,
-                //     'mail' => $mail,
-                //     'idutilisateur' => $userid
-                // ));
-
-                // $_SESSION['sid'] = $idSes;
-                // $_SESSION['prenom'] = $prenom;
-                // $_SESSION['civilite'] = $radio;
-                // $_SESSION['mel'] = $mail;
-                // $_SESSION['mdp'] = $new_mdp;
-
-
-                // On redirige vers la page d'accueil si tout se passe bien
-                // if ($_SESSION['login'] == "admin") {
-                //     header('Location: ../vue/admin/accueil_gestionnaire.php');
-                // } 
-                // else {
-                //     header('Location: ../vue/accueil.php');
-                // }
-
+            
                 ?>
 
         </div>

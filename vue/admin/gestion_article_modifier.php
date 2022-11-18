@@ -3,9 +3,74 @@
     require_once '../../modele/db.php';
 ?>
 
-
 <!DOCTYPE html>
 <html>
+
+    <?php
+
+        if (isset($_GET['art']) && $_GET['art'] != '') {
+            $requete = 'SELECT refart, designation, pu, unitecond, remise, imagelien
+                        FROM article
+                        WHERE refart='.$_GET['art'].';';
+            $articles = $db->prepare($requete);
+            $articles->execute();
+
+            foreach ($articles as $article) {
+                $_SESSION['refart'] = $article['refart'];
+                $_SESSION['designation'] = $article['designation'];
+                $_SESSION['pu'] = $article['pu'];
+                $_SESSION['unitecond'] = $article['unitecond'];
+                $_SESSION['remise'] = $article['remise'];
+                $_SESSION['imagelien'] = $article['imagelien'];
+            }
+        }
+
+    ?>
+
+    <?php
+            if (!empty($_POST)) {
+                if ($_SESSION['refart'] != $_POST['refart']) {
+                    $modifrefart = 'UPDATE article SET refart="'.$_POST['refart'].'" WHERE refart='.$_SESSION['refart'].';';
+                    $db->exec($modifrefart);
+                    $_SESSION['refart'] = $_POST['refart'];
+                }
+
+                if ($_SESSION['designation'] != $_POST['designation']) {
+                    $modifdesignation = 'UPDATE article SET designation="'.$_POST['designation'].'" WHERE refart='.$_SESSION['refart'].';';
+                    $db->exec($modifdesignation);
+                    $_SESSION['designation'] = $_POST['designation'];
+                }
+
+                if ($_SESSION['pu'] != $_POST['pu']) {
+                    $modifpu = 'UPDATE article SET pu="'.$_POST['pu'].'" WHERE refart='.$_SESSION['refart'].';';
+                    $db->exec($modifpu);
+                    $_SESSION['pu'] = $_POST['pu'];
+                }
+
+                if ($_SESSION['unitecond'] != $_POST['unitecond']) {
+                    $modifunitecond = 'UPDATE article SET unitecond="'.$_POST['unitecond'].'" WHERE refart='.$_SESSION['refart'].';';
+                    $db->exec($modifunitecond);
+                    $_SESSION['unitecond'] = $_POST['unitecond'];
+                }
+
+                if ($_SESSION['remise'] != $_POST['remise']) {
+                    $modifremise = 'UPDATE article SET remise="'.$_POST['remise'].'" WHERE refart='.$_SESSION['refart'].';';
+                    $db->exec($modifremise);
+                    $_SESSION['remise'] = $_POST['remise'];
+                }
+
+                if ($_SESSION['imagelien'] != $_POST['imagelien']) {
+                    $modifimagelien = 'UPDATE article SET imagelien="'.$_POST['imagelien'].'" WHERE refart='.$_SESSION['refart'].';';
+                    $db->exec($modifimagelien);
+                    $_SESSION['imagelien'] = $_POST['imagelien'];
+                }
+
+                $referer = $_SERVER['HTTP_REFERER'];
+                header("Location: $referer");
+            }
+        ?>
+
+
 
 <head>
     <meta charset="utf-8" />
@@ -41,7 +106,7 @@
             </div>
         </div>
     </div>
-    <div class="form">
+    <div class="content">
         <div class="modification_form_block w-form">
             <div class="en_tete_form">
                 <img src="../icons/edit.png" alt="account icon" style="height: 80px;" />
@@ -50,116 +115,30 @@
             <form id="wf-form-inscription-form" name="wf-form-inscription-form" data-name="inscription form" method="post" class="modification_form">
                 <div class="input_part">
                     <div class="inputs_side">
-                        <label for="reference" class="field-label">Référence</label>
-                        <input type="text" class="text-field w-input" autofocus="true" maxlength="256" name="reference" data-name="reference" placeholder="" id="reference" />
+                        <label for="refart" class="field-label">Référence</label>
+                        <input type="text" class="text-field w-input" autofocus="true" maxlength="256" name="refart" data-name="refart" placeholder="" id="refart" value="<?php echo $_SESSION['refart']; ?>" />
                         <label for="designation" class="field-label">Désignation</label>
-                        <input type="text" class="text-field w-input" maxlength="256" name="designation" data-name="designation" id="designation" />
-                        <label for="lien_image" class="field-label">Lien de l'image</label>
-                        <input type="text" class="text-field w-input" maxlength="256" name="lien_image" data-name="lien_image" id="lien_image" />
+                        <input type="text" class="text-field w-input" maxlength="256" name="designation" data-name="designation" id="designation" value="<?php echo $_SESSION['designation']; ?>" />
+                        <label for="imagelien" class="field-label">Lien de l'image</label>
+                        <input type="text" class="text-field w-input" maxlength="256" name="imagelien" data-name="imagelien" id="imagelien" value="<?php echo $_SESSION['imagelien']; ?>" />
 
                     </div>
                     <div class="inputs_side">
                         <label for="pu" class="field-label">Prix unitaire</label>
-                        <input type="text" class="text-field w-input" autofocus="true" maxlength="256" name="pu" data-name="pu" placeholder="" id="pu" />
+                        <input type="text" class="text-field w-input" autofocus="true" maxlength="256" name="pu" data-name="pu" placeholder="" id="pu" value="<?php echo $_SESSION['pu'];?>" />
                         <label for="unitecond" class="field-label">Unité conditionnement</label>
-                        <input type="text" class="text-field w-input" maxlength="256" name="unitecond" data-name="unitecond" id="unitecond" />
+                        <input type="text" class="text-field w-input" maxlength="256" name="unitecond" data-name="unitecond" id="unitecond" value="<?php echo $_SESSION['unitecond'];?>" />
                         <label for="remise" class="field-label">Remise</label>
-                        <input type="text" class="text-field w-input" maxlength="256" name="remise" data-name="remise" id="remise" />
+                        <input type="text" class="text-field w-input" maxlength="256" name="remise" data-name="remise" id="remise" value="<?php echo $_SESSION['remise'];?>" />
                     </div>
                 </div>
                 <div class="modifier">
                     <button type="submit" class="modifier_bouton w-button" target="_blank">Modifier</button>
                 </div>
             </form>
+
         </div>
     </div>
 </body>
 
 </html>
-
-
-
-<?php
-$idSes = session_id();
-// $currentmdp = $_SESSION['mdp'];
-
-function mailExiste($mail): bool {
-    global $db;
-    $query = $db->prepare('SELECT * FROM utilisateur WHERE mel = :mail');
-    $query->execute(array(
-        'mail' => $mail
-    ));
-    $resquery = $query->rowCount();
-    if ($resquery != 0) {
-        return true;
-    } else {
-        return false;
-    }
-}
-
-function verifMdpChangement($old_mdp, $currentmdp): bool {
-    if ($old_mdp == $currentmdp) {
-        return true;
-    } else {
-        return false;
-    }
-}
-
-
-
-if (isset($_POST['prenom']) && isset($_POST['radio']) && isset($_POST['old_mdp']) && isset($_POST['new_mdp']) && isset($_POST['mail'])) {
-
-    $prenom = $_POST['prenom'];
-    $radio = $_POST['radio'];
-    $old_mdp = $_POST['old_mdp'];
-    $new_mdp = $_POST['new_mdp'];
-    $mail = $_POST['mail'];
-
-    if (mailExiste($mail)) {
-        $errMsg = "Ce mail est déjà utilisé";
-    }
-    if (!verifMdpChangement($old_mdp, $currentmdp)) {
-        $errMsg = "Ancien mot de passe incorrect, veuillez réessayer";
-    }
-
-
-    if (!mailExiste($mail)) {
-        if (verifMdpChangement($old_mdp, $currentmdp)) {
-            $query = $db->prepare('UPDATE utilisateur SET prenom = :prenom, civilite = :radio, mdp = :new_mdp, mel = :mail WHERE mel = :mail');
-            $query->execute(array(
-                'prenom' => $prenom,
-                'radio' => $radio,
-                'new_mdp' => $new_mdp,
-                'mel' => $mail
-            ));
-
-            $_SESSION['sid'] = $idSes;
-            $_SESSION['prenom'] = $prenom;
-            $_SESSION['civilite'] = $civilite;
-            $_SESSION['mel'] = $mail;
-            $_SESSION['mdp'] = $new_mdp;
-            
-            // On redirige vers la page d'accueil si tout se passe bien
-            if ($_SESSION['login'] == "admin") {
-                header('Location: ../vue/admin/accueil_gestionnaire.php');
-            } else {
-                header('Location: ../vue/accueil.php');
-            }
-        } else {
-            echo $errMsg;
-        }
-    } else {
-        echo 'Veuillez remplir tous les champs du formulaire';
-    }  
-}
-
-
-
-
-
-
-
-
-
-
-?>

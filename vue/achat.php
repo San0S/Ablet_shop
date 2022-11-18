@@ -60,6 +60,18 @@
             $db->exec($requete);
         }
 
+        function supprimerArticleDB(string $refart) {
+            global $db;
+            $requete = 'DELETE
+                        FROM article
+                        WHERE refart='.$refart.' AND refart='.$refart.';';
+            $db->exec($requete);
+            $requete = 'DELETE
+                        FROM caddie
+                        WHERE refart='.$refart.';';
+            $db->exec($requete);
+        }
+
         if (isset($_GET['fct'])) {
             switch ($_GET['fct']) {
                 case 'viderPanier':
@@ -76,6 +88,14 @@
 
                 case 'ajoutArticle':
                     ajouterArticleCaddie($_GET['art']);
+                    break;
+                
+                case 'suppArticleDB':
+                    supprimerArticleDB($_GET['art']);
+                    break;
+                
+                case 'editArticleDB':
+                    header('Location: ./admin/gestion_article_modifier.php?art='.$_GET['art']);
                     break;
             }
         } elseif (isset($_GET['art'])) {
@@ -189,8 +209,8 @@
 
                 if ($_SESSION['login'] == "admin") {
                     echo '<div class="div-block-12" style="margin-top: 10%;">';
-                    echo '<a href="." class="achat w-inline-block" style="margin-right: 20px;"><img src="./icons/edit_white.png" sizes="(max-widht: 767px) 100vw, (max-width: 991px) 4vw, 30px" alt="shopping_cart_icons" style="margin-right: 0;" class="caddie_icon"/></a>';
-                    echo '<a href="." class="achat w-inline-block"><img src="./icons/delete_white.png" sizes="(max-widht: 767px) 100vw, (max-width: 991px) 4vw, 30px" alt="shopping_cart_icons" style="margin-right: 0;" class="caddie_icon"/></a>';
+                    echo '<a href="./achat.php?fct=editArticleDB&art='.$article['refart'].'" class="achat w-inline-block" style="margin-right: 20px;"><img src="./icons/edit_white.png" sizes="(max-widht: 767px) 100vw, (max-width: 991px) 4vw, 30px" alt="shopping_cart_icons" style="margin-right: 0;" class="caddie_icon"/></a>';
+                    echo '<a href="./achat.php?fct=suppArticleDB&art='.$article['refart'].'" class="achat w-inline-block"><img src="./icons/delete_white.png" sizes="(max-widht: 767px) 100vw, (max-width: 991px) 4vw, 30px" alt="shopping_cart_icons" style="margin-right: 0;" class="caddie_icon"/></a>';
                     echo '</div>';
                 }
                 echo '</div>';
