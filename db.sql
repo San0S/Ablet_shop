@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : sam. 12 nov. 2022 à 19:30
+-- Généré le : ven. 18 nov. 2022 à 19:29
 -- Version du serveur : 5.7.36
 -- Version de PHP : 7.4.26
 
@@ -49,7 +49,9 @@ INSERT INTO `article` (`refart`, `designation`, `pu`, `unitecond`, `remise`, `im
 (401543, 'dragées Frisklès', 4.90, '75g', 0, 'img/dragee.jpg'),
 (445566, 'moutarde forte Maye', 3.30, '380gr', 10, 'img/moutarde.jpg'),
 (778899, 'Essuie-tout prédécoupé/résistant TOPALAIN', 3.00, '3 rouleaux', 10, 'img/essuie-tout.jpg'),
-(935647, 'torsades Paria', 2.20, '500gr', 0, 'img/torsades.jpg');
+(935647, 'torsades Paria', 2.20, '500gr', 0, 'img/torsades.jpg'),
+(123409, 'banane', 2.50, '500gr', 0, 'img/default.png'),
+(234520, 'noix de coco', 5.50, '1kg', 0, 'img/default.png');
 
 -- --------------------------------------------------------
 
@@ -80,7 +82,14 @@ INSERT INTO `caddie` (`idutilisateur`, `refart`, `qte`) VALUES
 (2, 778899, 2.00),
 (3, 368723, 3.00),
 (3, 445566, 4.00),
-(3, 778899, 1.00);
+(3, 778899, 1.00),
+(10, 368724, 1.00),
+(10, 778899, 1.00),
+(8, 368723, 1.00),
+(10, 368723, 1.00),
+(10, 401543, 1.00),
+(10, 445566, 1.00),
+(10, 1234098, 1.00);
 
 -- --------------------------------------------------------
 
@@ -98,7 +107,7 @@ CREATE TABLE IF NOT EXISTS `utilisateur` (
   `login` text COLLATE utf8_bin NOT NULL,
   `mdp` text COLLATE utf8_bin NOT NULL,
   PRIMARY KEY (`idutilisateur`)
-) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Déchargement des données de la table `utilisateur`
@@ -109,10 +118,10 @@ INSERT INTO `utilisateur` (`idutilisateur`, `nom`, `prenom`, `civilite`, `mel`, 
 (2, 'KIRMANI', 'Jezabel', 'Mme', 'jeza.kirmini@gmx.fr', 'kirman1', 'JeZa8?'),
 (3, 'MARTIN', 'François', 'M.', 'francois.martinF@gmail.com', 'martin47', '1234cmoi'),
 (4, 'KAS', 'Martine', 'Mme', 'kas.martine@gmail.com', 'kas4', 'G1bonMo'),
-(5, 'MATTEO', 'Vella', 'Monsieur', 'qsgqs@qsg.com', 'vell45', '1234'),
 (6, 'VALJEAN', 'Jean', 'Mx.', 'qsgd@sdg.com', 'azqsgl', '1234'),
-(7, 'WAYNE', 'Bruce', 'M.', 'batman@batmail.bat', 'batman', 'nikejoker'),
-(8, 'VANDAME', 'Jean-Claude', 'M.', 'jvc@leboss.com', 'JvC', 'cbonlo');
+(7, 'WAYNE', 'Bruce', 'M.', 'batman@batmail.bat', 'batman', 'batmdp'),
+(8, 'VANDAME', 'Jean-Claude', 'M.', 'jvc@leboss.com', 'JvC', 'cbonlo'),
+(10, 'admin', 'admin', 'Mx.', 'admin@ablet.com', 'admin', 'admin');
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
