@@ -3,7 +3,7 @@ VELLA Matteo
 Groupe 1.2
 
 
-- Lien du site : https://devweb.iutmetz.univ-lorraine.fr/~dellaera2u/Web/TP_DevWeb_2710/tpweb_devweb/
+- Lien du site : https://devweb.iutmetz.univ-lorraine.fr/~vella7u/tpweb_devweb/
 
 - Connexion du gestionnaire de l'application : 
 
@@ -20,8 +20,8 @@ Mot de passe : FAR%10le
 
 Client 2
 
-Login : kirman1
-Mot de passe : JeZa8?
+Login : kas4
+Mot de passe : G1bonMo
 
 
 
