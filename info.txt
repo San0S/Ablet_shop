@@ -22,3 +22,10 @@ Client 2
 
 Login : kirman1
 Mot de passe : JeZa8?
+
+
+
+fonctionnalité manquante :
+- affichage de la liste des clients
+- modification d'un client par le gestionnaire
+- gestion du fichiers JSON

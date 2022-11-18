@@ -81,14 +81,14 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>Accueil - Aublet</title>
+    <title>Accueil gestion - Aublet</title>
     <link href="../css/style_accueil.css" rel="stylesheet" type="text/css" />
     <link href="../img/logo_img.png" rel="shortcut icon" type="image/x-icon" />
 </head>
 
 <body class="body">
     <div class="menu">
-        <a class="logo" href="accueil.php">
+        <a class="logo" href="../accueil.php">
             <img src="../img/logo.png" alt="ablet logo" />
         </a>
         <div class="search_part">
