@@ -1,8 +1,5 @@
 ## Repo pour TP Dev Web
 
-(super cool)
-
-
 # Sujet :
 Développer une application web permettant aux utilisateurs (les clients du groupe "Aublet") de suivre
 l'évolution de leur caddie lors de leurs achats dans une grande surface du groupe.
